@@ -53,7 +53,9 @@ export function SiteHeader() {
       <Container>
         <div className="flex h-[76px] items-center justify-between">
           <a href="#atas" aria-label="Top Solvix Labs — ke atas">
-            <Image src="/brand/logo-on-light.png" alt="Top Solvix Labs" width={140} height={26} />
+            {/* 154×40 = rasio kanvas 1493:388 persis (error 0.00%), jadi mark
+                tidak gepeng. Mark terlihat 131×23px di dalam kanvas itu. */}
+            <Image src="/brand/logo-on-light.png" alt="Top Solvix Labs" width={154} height={40} />
           </a>
 
           <nav aria-label="Navigasi utama" className="hidden gap-9 md:flex">

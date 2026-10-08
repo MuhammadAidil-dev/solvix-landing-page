@@ -2,9 +2,14 @@ import { Container } from "../ui/Section";
 
 export function Hero() {
   return (
-    <section id="atas" className="pt-24 md:pt-32">
+    <section
+      id="atas"
+      className="relative flex min-h-[calc(100dvh_-_76px)] items-center overflow-hidden py-20 md:py-24"
+    >
+      <div aria-hidden="true" className="hero-motif pointer-events-none absolute inset-0" />
+
       <Container>
-        <div className="mx-auto max-w-[840px] text-center">
+        <div className="relative mx-auto max-w-[840px] text-center">
           <p className="mb-7 text-xs font-medium uppercase tracking-[0.2em] text-muted">
             Perusahaan Pengembangan Software
           </p>

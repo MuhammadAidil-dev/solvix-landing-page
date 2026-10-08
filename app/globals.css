@@ -32,3 +32,23 @@
     outline-offset: 3px;
   }
 }
+
+/* DESIGN.md §5 "Hero motif": motif garis/grid teknis di atas cream.
+   Bukan gradient dan bukan foto — cream tetap warna background (§2),
+   jadi §9.2 tidak perlu dibuka. Motif digambar di belakang konten: div motif
+   datang lebih dulu dan absolutely positioned, sedangkan konten dibungkus
+   `relative` supaya tetap melapisi motif ketika di-paint. */
+.hero-motif {
+  background-image:
+    linear-gradient(to right, rgba(11, 37, 69, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11, 37, 69, 0.055) 1px, transparent 1px),
+    repeating-linear-gradient(to bottom, rgba(231, 229, 223, 0.9) 0 1px, transparent 1px 104px);
+  background-size:
+    88px 88px,
+    88px 88px,
+    100% 104px;
+  /* Memudar ke tepi supaya motif tidak pernah membentuk tepi tajam di batas
+     section, dan tidak menumpuk di area konten yang sedang dibaca. */
+  -webkit-mask-image: radial-gradient(115% 90% at 50% 34%, #000 25%, transparent 78%);
+  mask-image: radial-gradient(115% 90% at 50% 34%, #000 25%, transparent 78%);
+}

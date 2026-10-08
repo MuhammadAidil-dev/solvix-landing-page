@@ -18,9 +18,15 @@ Brand kit menyediakan varian berlatar **putih** dan berlatar **navy**. Pilihanny
 
 | Aset                | Latar          | Dipakai di                |
 | ------------------- | -------------- | ------------------------- |
-| `logo-on-light.png` | putih          | permukaan terang (navbar) |
+| `logo-on-light.png` | transparan     | permukaan terang (navbar) |
 | `logo-on-navy.png`  | navy `#0B2545` | permukaan navy (footer)   |
 | `icon.png`          | putih          | favicon / app icon        |
+
+Varian navbar memakai file **ber-alpha** (bukan berlatar putih). Alasannya teknis, bukan selera: navbar memakai `cream` `#FBFAF7`, dan logo berlatar putih `#FFFFFF` di atasnya memunculkan kotak putih yang subtly berbeda — junction yang selalu dikeluhkan. File transparan menghapus junction itu tanpa mengubah warna background apa pun. Warna mark sendiri tidak berubah: `#0B2545` 91% + `#2B7FFF` 9%, persis sama seperti varian berlatar putih.
+
+Ukuran render wajib mengikuti **rasio kanvas `1493:388`**, bukan rasio mark. `next/image` diberi dimensi dalam pixel kanvas; memakai `width: 140, height: 26` membuat mark ter-render gepeng pada 71.5% tinggi sebenarnya. Nilai yang dipakai di navbar: `154×40` (error rasio 0.00%).
+
+Kanvas `icon.png` adalah `1024×1024` dengan **padding asimetris**: `237px` kiri/kanan, `218px` atas, `313px` bawah. Mark karena itu meleset ke atas sekitar `48px` terhadap titik tengah optik. Ketimpangan ini dibiarkan, bukan diperbaiki: menggeser mark sama saja menyusun ulang aset yang dilarang oleh aturan di bawah.
 
 Dua aturan yang tidak boleh dilanggar:
 
@@ -147,17 +153,18 @@ Semua komponen di `components/sections/` kecuali primitif di `components/ui/`.
 
 `em` di dalam `h2` = kata emphasis. Aturan: **tepat satu** `em` per heading, tidak lebih.
 
-| Komponen            | Spec                                                                                                                                                           |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Card**            | bg `paper`, border `1px` `hairline`, `radius: 6px`, **tanpa shadow**. Padding `44px 38px`. Hover hanya `border-color` → `navy`, **tanpa** translate/transform. |
-| **Button primary**  | bg `navy`, teks `paper`, `radius: 4px`, weight 500. Hover → bg `navy-soft`.                                                                                    |
-| **Button link**     | transparan, teks `accent`, `border-bottom: 2px` `accent`, padding-bottom `2px`. Hover: warnanya tetap.                                                         |
-| **Card numbered**   | nomor dengan **serif italic** `accent`, bukan mono, bukan bold sans. Ini yang membedakan dari template agency.                                                 |
-| **Process item**    | grid `120px / 1fr`, nomor serif italic besar (`44px`), dipisah `border-top: 1px` `hairline`. Item terakhir punya `border-bottom`.                              |
-| **Portfolio card**  | area visual atas `170px` dengan bg `#EEF3FA` → `#DCE7F5` gradient dan angka serif italic besar `accent` (bukan foto stok). Body `paper`.                       |
-| **Team avatar**     | bulat, `112px`, gradient `#E6EEF9` → `#CFDEF2`, inisial `navy` weight 300. Bukan foto orang.                                                                   |
-| **Pull quote band** | satu-satunya tempat `navy` full-bleed di halaman: bg `navy`, teks `paper`, serif italic, `padding: 80px 0`. Maksimal **satu** di seluruh halaman.              |
-| **Footer**          | bg `navy`, teks `rgba(255,255,255,.65)`, tautan hover → putih.                                                                                                 |
+| Komponen            | Spec                                                                                                                                                                                        |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Card**            | bg `paper`, border `1px` `hairline`, `radius: 6px`, **tanpa shadow**. Padding `44px 38px`. Hover hanya `border-color` → `navy`, **tanpa** translate/transform.                              |
+| **Button primary**  | bg `navy`, teks `paper`, `radius: 4px`, weight 500. Hover → bg `navy-soft`.                                                                                                                 |
+| **Button link**     | transparan, teks `accent`, `border-bottom: 2px` `accent`, padding-bottom `2px`. Hover: warnanya tetap.                                                                                      |
+| **Card numbered**   | nomor dengan **serif italic** `accent`, bukan mono, bukan bold sans. Ini yang membedakan dari template agency.                                                                              |
+| **Process item**    | grid `120px / 1fr`, nomor serif italic besar (`44px`), dipisah `border-top: 1px` `hairline`. Item terakhir punya `border-bottom`.                                                           |
+| **Portfolio card**  | area visual atas `170px` dengan bg `#EEF3FA` → `#DCE7F5` gradient dan angka serif italic besar `accent` (bukan foto stok). Body `paper`.                                                    |
+| **Team avatar**     | bulat, `112px`, gradient `#E6EEF9` → `#CFDEF2`, inisial `navy` weight 300. Bukan foto orang.                                                                                                |
+| **Pull quote band** | satu-satunya tempat `navy` full-bleed di halaman: bg `navy`, teks `paper`, serif italic, `padding: 80px 0`. Maksimal **satu** di seluruh halaman.                                           |
+| **Footer**          | bg `navy`, teks `rgba(255,255,255,.65)`, tautan hover → putih.                                                                                                                              |
+| **Hero motif**      | motif garis/grid teknis `hairline` di atas `cream`, opacity rendah (`4%`–`8%`). **Bukan** gradient, **bukan** foto, **bukan** ilustrasi. `cream` tetap warna background — §2 tidak berubah. |
 
 ---
 
@@ -165,9 +172,13 @@ Semua komponen di `components/sections/` kecuali primitif di `components/ui/`.
 
 - **Satu halaman panjang**, scroll dengan anchor navigation. Header sticky dengan backdrop-blur, bg `cream`/`rgba(251,250,247,.9)`, `border-bottom: 1px` `hairline`, tinggi `76px`.
 - Section berurutan: `Hero → Pull quote → Layanan → Proses → Portofolio → Tim → Kontak → Footer`.
+- **Hero mengisi sisa viewport dan isinya center vertikal.** `min-height: calc(100dvh - 76px)` — `76px` adalah tinggi header sticky, jadi hero tepat mengisi layar tanpa shove. Pakai **`dvh`**, bukan `vh`: address bar HP yang muncul/menghilang tidak boleh menggeser centering. Padding vertikal hero (`80px`/`96px`) hanya sebagai breathing room, bukan untuk mendorong konten ke bawah. Centering harus datang dari `min-height` plus flex, bukan dari padding — kalau padding yang kedua, blok akan terlihat melayang tinggi di layar besar.
 - **Section heading selalu center-aligned** dengan `max-width: 660px`. Konten (card grid) boleh full container width. Pola ini yang bikin halaman terasa seperti majalah, bukan landing page SaaS.
 - Card grid: layanan `2 kolom` (desktop), `1 kolom` (< 620px). Portofolio `3 kolom` → `1`. Tim `4 kolom` → `2` → `1`.
 - Section **tidak** dimulai dengan padding vertikal yang.flowBH di mobile — rhythm dari spacing section yang konsisten sudah cukup.
+
+Hero dikecualikan dari dua aturan di halaman ini, dan hanya Hero: ia memakai `min-height` viewport + centering vertikal (§6), dan ia memakai motif garis tipis di atas `cream` (§5) alih-alih block warna atau gradient. Section setelah Hero tetap `110px` atas/bawah dan tetap tanpa background block.
+
 - Konten di dalam card selalu justify ke kiri. Tidak ada `text-center` di dalam card, kecuali Team.
 
 ---
@@ -216,7 +227,7 @@ Bagian ini yang paling load-bearing. Semuanya **dilarang**:
 4. **Heading bold.** Semua heading weight 300.
 5. **Body text di bawah 16px.**
 6. **Lebih dari satu `em` (italic serif) per heading.**
-7. **Border radius di atas 8px.** Card 6px, button 4px.
+7. **Border radius di atas 8px.** Card 6px, button 4px. Pengecualian: `icon.png` / favicon, yang mengikuti rasio app icon platform (`224px` di kanvas `1024` ≈ 22%). Batas 8px ini mengikat komponen di dalam halaman, bukan aset platform.
 8. **`text-transform: uppercase` di luar eyebrow.**
 9. **Ikon emoji sebagai dekorasi** (`💻 📱 🔗`). Kalau butuh ikon, pakai icon line-weight 1.5px, atau tidak ada.
 10. **Foto stok orang di ruang kerja.** Team pakai inisial, portofolio pakai angka/nama industri.
