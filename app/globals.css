@@ -1,3 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* compensate sticky header when jumping to an anchor */
+    scroll-padding-top: 92px;
+  }
+
+  body {
+    background-color: #fbfaf7;
+    color: #0b2545;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* DESIGN.md §3: exactly one emphasis system — italic serif.
+     Kept as a class so every heading uses the same treatment. */
+  em {
+    font-family: var(--font-serif), Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  :focus-visible {
+    outline: 2px solid #2b7fff;
+    outline-offset: 3px;
+  }
+}

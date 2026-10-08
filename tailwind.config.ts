@@ -9,7 +9,23 @@ const config: Config = {
     "./lib/**/*.{ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        navy: "#0B2545",
+        "navy-soft": "#1B3A5C",
+        accent: "#2B7FFF",
+        cream: "#FBFAF7",
+        paper: "#FFFFFF",
+        hairline: "#E7E5DF",
+        text: "#0B2545",
+        body: "#4A5C70",
+        muted: "#8A97A5",
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        serif: ["var(--font-serif)", "Georgia", "serif"],
+      },
+    },
   },
   plugins: [],
 };

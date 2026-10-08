@@ -1,15 +1,27 @@
-import { ProductList } from "../features/product/components/table/ProductList";
+import { SiteFooter } from "../components/layout/SiteFooter";
+import { SiteHeader } from "../components/layout/SiteHeader";
+import { Contact } from "../components/sections/Contact";
+import { Hero } from "../components/sections/Hero";
+import { Portfolio } from "../components/sections/Portfolio";
+import { Process } from "../components/sections/Process";
+import { PullQuote } from "../components/sections/PullQuote";
+import { Services } from "../components/sections/Services";
+import { Team } from "../components/sections/Team";
 
 export default function HomePage() {
   return (
-    <section className="space-y-6">
-      <header className="space-y-1">
-        <h1 className="text-2xl font-bold">Solvix Frontend</h1>
-        <p className="text-sm text-zinc-600">
-          Contoh public list (tanpa token) + auth flow via Zustand memory.
-        </p>
-      </header>
-      <ProductList />
-    </section>
+    <>
+      <SiteHeader />
+      <main>
+        <Hero />
+        <PullQuote />
+        <Services />
+        <Process />
+        <Portfolio />
+        <Team />
+        <Contact />
+      </main>
+      <SiteFooter />
+    </>
   );
 }
