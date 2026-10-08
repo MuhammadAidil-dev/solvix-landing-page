@@ -9,16 +9,38 @@ dist/
 
 # test & coverage
 coverage/
+.eslintcache
 
 # logs
 logs/
 *.log
 npm-debug.log*
+yarn-error.log*
+yarn-debug.log*
+pnpm-debug.log*
 
-# environment local overrides (template .env.* tetap ikut scaffold via CLI, local tidak)
-.env*.local
+# environment — semua variant di-ignore, template .env.example tetap ikut repo
+.env
+.env.*
+!.env.example
+
+# deploy
+.vercel/
+
+# caches
+.cache/
+.turbo/
+
+# certificates & private keys — jangan pernah di-commit
+*.pem
+*.key
+*.p12
+*.pfx
 
 # os / editor
 .DS_Store
+Thumbs.db
+.vscode/
+.idea/
 *.tsbuildinfo
 next-env.d.ts
