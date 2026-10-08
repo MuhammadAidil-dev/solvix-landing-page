@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Button } from "../../../../components/ui/button";
 import { Input } from "../../../../components/ui/input";
 import { Toast } from "../../../../components/ui/toast";
-import { useLogin } from "../hooks/hooks";
-import { loginSchema } from "../schema/schema";
+import { useLogin } from "../../hooks/hooks";
+import { loginSchema } from "../../schema/schema";
 
 export function LoginForm() {
   const { login, loading, error } = useLogin();

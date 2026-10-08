@@ -1,7 +1,7 @@
 "use client";
 
 import { Toast } from "../../../../components/ui/toast";
-import { useProducts } from "../hooks/hooks";
+import { useProducts } from "../../hooks/hooks";
 
 export function ProductList() {
   const { data, loading, error } = useProducts();

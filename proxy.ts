@@ -5,7 +5,7 @@ import type { NextRequest } from "next/server";
 // jadi guard cek keberadaan cookie (mis. `refreshToken`). Access token tetap di memory Zustand.
 const PROTECTED_PREFIXES = ["/dashboard"];
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const needsGuard = PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
   if (!needsGuard) return NextResponse.next();
