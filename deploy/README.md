@@ -1,7 +1,7 @@
 # Deploy ke VPS (Ubuntu/Debian + PM2 + Nginx)
 
 Alur: kode di GitHub → `git pull` di VPS → `npm run build` → PM2 menjalankan `next start` di
-`127.0.0.1:3000` → Nginx meneruskan trafik publik + HTTPS.
+`127.0.0.1:3200` → Nginx meneruskan trafik publik + HTTPS.
 
 Domain: `topsolvixlabs.my.id` (dan `www.topsolvixlabs.my.id`).
 
@@ -43,7 +43,7 @@ pm2 startup systemd
 pm2 save
 ```
 
-Cek: `curl -I http://127.0.0.1:3000` harus membalas `200`.
+Cek: `curl -I http://127.0.0.1:3200` harus membalas `200`.
 
 ## 3. Nginx + HTTPS
 
@@ -74,4 +74,4 @@ Script memakai `pm2 reload`, jadi proses diganti tanpa mati lama.
 - **RAM kecil (≤1 GB):** `npm run build` bisa gagal kehabisan memori. Tambahkan swap 1–2 GB, atau
   build di lokal lalu kirim folder `.next`.
 - **Log:** `pm2 logs solvix-landing`. Restart manual: `pm2 restart solvix-landing`.
-- **Port:** 3000 hanya terbuka ke localhost; jangan dibuka di firewall.
+- **Port:** 3200 hanya terbuka ke localhost; jangan dibuka di firewall.
