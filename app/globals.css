@@ -1,3 +1,114 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* compensate sticky header when jumping to an anchor */
+    scroll-padding-top: 92px;
+  }
+
+  body {
+    background-color: #fbfaf7;
+    color: #0b2545;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* DESIGN.md §3: exactly one emphasis system — italic serif.
+     Kept as a class so every heading uses the same treatment. */
+  em {
+    font-family: var(--font-serif), Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  :focus-visible {
+    outline: 2px solid #2b7fff;
+    outline-offset: 3px;
+  }
+}
+
+/* DESIGN.md §5 "Hero motif": motif garis/grid teknis di atas cream.
+   Bukan gradient dan bukan foto — cream tetap warna background (§2),
+   jadi §9.2 tidak perlu dibuka. Motif digambar di belakang konten: div motif
+   datang lebih dulu dan absolutely positioned, sedangkan konten dibungkus
+   `relative` supaya tetap melapisi motif ketika di-paint. */
+.hero-motif {
+  background-image:
+    linear-gradient(to right, rgba(11, 37, 69, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11, 37, 69, 0.055) 1px, transparent 1px),
+    repeating-linear-gradient(to bottom, rgba(231, 229, 223, 0.9) 0 1px, transparent 1px 104px);
+  background-size:
+    88px 88px,
+    88px 88px,
+    100% 104px;
+  /* Memudar ke tepi supaya motif tidak pernah membentuk tepi tajam di batas
+     section, dan tidak menumpuk di area konten yang sedang dibaca. */
+  -webkit-mask-image: radial-gradient(115% 90% at 50% 34%, #000 25%, transparent 78%);
+  mask-image: radial-gradient(115% 90% at 50% 34%, #000 25%, transparent 78%);
+}
+
+/* ---------------------------------------------------------------------------
+   Penyempurnaan visual (DESIGN.md §10). Semua tetap dalam karakter "Light
+   Editorial Calm": efek halus, lambat, dan tidak pernah mendominasi tipografi.
+   --------------------------------------------------------------------------- */
+
+/* Kartu: border → navy saat hover. */
+.card-lift {
+  transition: border-color 220ms ease;
+}
+.card-lift:hover {
+  border-color: #0b2545;
+}
+
+/* Muncul perlahan saat masuk viewport. CSS murni (tanpa JS), hanya di browser
+   yang mendukung scroll-driven animation; sisanya tampil biasa. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 30%;
+    }
+  }
+}
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Latar dekoratif section (DESIGN.md §10). Memudar ke tepi supaya tidak
+   pernah membentuk garis tajam di batas section. */
+.bg-grid,
+.bg-grid-light {
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(90% 80% at 50% 45%, #000 15%, transparent 75%);
+  mask-image: radial-gradient(90% 80% at 50% 45%, #000 15%, transparent 75%);
+}
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(11, 37, 69, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11, 37, 69, 0.06) 1px, transparent 1px);
+}
+.bg-grid-light {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+}
+.bg-dots {
+  background-image: radial-gradient(rgba(11, 37, 69, 0.22) 1px, transparent 1px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(closest-side, #000 20%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 20%, transparent 100%);
+}

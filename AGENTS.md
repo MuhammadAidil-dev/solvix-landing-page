@@ -11,21 +11,33 @@ Next.js **16.4** App Router + React 19 + TypeScript + Tailwind + Zustand fronten
 Verified on Node 22.11 / npm. **Every script passes.**
 
 ```
-npm run dev         # OK — 200 on / and /login, Turbopack, ~1s
+npm run dev         # long-lived: starts and never exits — see "Verifying without a running server"
 npm run typecheck   # OK — 0 errors
 npm test            # OK — 6 tests
-npm run test:watch
+npm run test:watch  # long-lived: watch mode
 npm run lint        # OK — eslint CLI, 0 errors (2 pre-existing warnings in lib/fetcher.ts)
 npm run build       # OK — Turbopack, 3 routes prerendered + proxy
-npm run start       # OK — 200 on / and /login
+npm run start       # long-lived: needs `npm run build` first, then never exits
 ```
 
 - Two pre-existing lint **warnings**, both in `lib/fetcher.ts`, both intentional — don't "fix" them casually:
   - `@next/next/no-location-assign-relative-destination` on the `window.location.href = "/login"` hard redirect (required by the refresh-once flow below).
   - An unused `eslint-disable` directive above the `user as any` cast.
 - Next.js 16 floors: **Node ≥20.9**, TypeScript ≥5.1, ESLint ≥9. Pinned to ESLint 9.x, not 10 — `eslint-config-next@16`'s bundled `eslint-plugin-react`/`-import`/`-jsx-a11y` still cap their peer at `^9`, so ESLint 10 makes `npm ls` fail with `ELSPROBLEMS`.
-- `next dev` silently falls back to **port 3001** if 3000 is occupied, and it only prints the URL once. Grep the startup log for `Local:` instead of hardcoding the port when scripting against it. Kill leftover servers by matching `node.exe` whose command line contains both `solvix-landing` and `next` — `Stop-Process` on the `npm.cmd` PID leaves orphaned `next dev` grandchildren still holding the port.
+- `next dev` silently falls back to **port 3001** if 3000 is occupied, and it only prints the URL once — grep the startup log for `Local:` instead of hardcoding the port when scripting against it. This is almost always the symptom of a leftover server, not a real problem.
 - Historical landmines, both fixed — don't reintroduce: `next.config.mjs` must not contain TypeScript syntax (Next loads `.mjs` config as plain JS → `SyntaxError`), and feature components import siblings via `../../hooks/hooks`, not `../hooks/hooks`.
+
+## Verifying without a running server
+
+**Never start `next dev` or `next start` as a verification step.** Both are long-lived processes that never exit on their own, so a `Start-Process` without `-PassThru` leaves an orphaned process holding port 3000 — which silently pushes the next `next dev` onto 3001 and turns a clean check into a misdiagnosis.
+
+- **`npm run build` is the authoritative check.** It compiles, prerenders every route, and prints the route table. That output already proves the page renders — a live HTTP request adds nothing.
+- Route table from `next build` also proves deletions took effect (a removed route disappears from it). That replaces "curl the removed route and check for 404".
+- `typecheck` + `test` + `lint` + `build` is the complete gate. All four terminate on their own.
+- If a live server is genuinely unavoidable, it must be bounded: `-PassThru` to capture the PID, read readiness by polling the log, then kill the **whole tree** — `Stop-Process` on the `npm.cmd` PID leaves `next dev` grandchildren alive. Verify the port is free afterward.
+- Next 16 writes its dev log to `.next/dev/logs/next-development.log`; prefer that over capturing stdout.
+- Before starting anything on a port, check it is free: `Get-NetTCPConnection -State Listen -LocalPort 3000,3001`.
+- Don't "wait for ready" with a fixed `Start-Sleep`. Poll for the readiness marker under a bounded loop.
 
 ## Commands (notes)
 
@@ -47,23 +59,23 @@ Migrated from 14 → 16. Don't reintroduce these removed APIs:
 ## Layout and boundaries
 
 ```
-app/            Next App Router pages + layout/error/loading + globals.css (Tailwind directives only)
-components/ui/  Presentational primitives: Button, Input, Toast
-features/<f>/   Per-feature vertical slice — components/, hooks/, schema/, service/, store/
-lib/            Cross-cutting: fetcher.ts, api-error.ts, config.ts, utils.ts
-stores/         Global cross-feature stores only (currently just auth session)
-middleware.ts → proxy.ts   Route guard (Next 16: request interception lives in `proxy.ts`, exported function must be named `proxy`, Node runtime only)
+app/            Next App Router — layout, error, loading, icon.png, globals.css
+components/ui/  Primitives: Button, Section (Section + Container)
+components/layout/  SiteHeader (client), SiteFooter
+components/sections/ Hero, PullQuote, Services, Process, Portfolio, Team, Contact
+lib/            HTTP + config infrastructure: fetcher.ts, api-error.ts, config.ts, utils.ts
+stores/         Global session store (auth) — not used by the company profile page
+proxy.ts        Route guard (Next 16: exported function must be named `proxy`, Node runtime only)
+public/brand/   Logo assets (light/dark/icon variants)
 ```
 
-Feature slice convention (all four layers required, named exactly this way):
+> `features/` was removed when the demo UI was replaced by the company profile. The
+> four-layer slice convention (`service/` `schema/` `store/` `hooks/`) no longer applies
+> to any file in this repo — reintroduce it only if a feature that calls an API is added.
 
-- `service/api.ts` — the only place that calls `lib/fetcher`. Components/hooks never call `fetch` directly.
-- `schema/schema.ts` — Zod schema + inferred type. Types are `z.infer`; never hand-write the type.
-- `store/store.ts` — **local UI state** for that feature (`loading`, `error`, actions). `"use client"`.
-- `hooks/hooks.ts` — thin wrapper; components consume hooks only, never the feature store.
-- `components/` — UI only.
-
-Store split is deliberate: `stores/auth.ts` holds the global session; `features/*/store/` hold per-screen UI state. Don't duplicate session state into a feature store — feature stores read/write the global one via `useAuthStore.getState()`.
+`lib/` + `stores/auth.ts` + `proxy.ts` are **currently unused by any rendered page**. They
+are kept deliberately: they carry the repo's only test coverage and are the intended path
+when a feature needs real HTTP. Don't wire the static company profile to them.
 
 ## HTTP layer (`lib/fetcher.ts`)
 
@@ -76,6 +88,8 @@ Single gateway for all requests. Non-obvious contracts:
 - `apiAuth` on 401 calls `POST {base}/auth/refresh` **once**, retries the request once, and on failure does `logout()` + hard `window.location.href = "/login"`. Never call `apiAuth` from a Server Component.
 
 ## Auth model (do not "fix" this)
+
+**Currently dead code** — no rendered page uses it. Kept for the next feature that needs real HTTP.
 
 - Access token lives **only in Zustand memory** (`stores/auth.ts`). There is intentionally **no `localStorage`/`sessionStorage` persistence** — a full reload logs you out.
 - Refresh token is an httpOnly cookie set by the backend, so it is unreadable client-side.
@@ -102,3 +116,9 @@ Single gateway for all requests. Non-obvious contracts:
 - Tailwind `content` globs are pinned to `app`, `components`, `features`, `stores`, `lib`. A new top-level source directory must be added to `tailwind.config.ts` or its classes get purged.
 - `lib/utils.ts` exports `cn()` — a plain filter+join. `clsx` and `tailwind-merge` are **not** installed, so `cn()` does no conflict resolution. Don't write code that depends on Tailwind class overriding.
 - No `"use client"` in `app/layout.tsx`, `app/page.tsx`, `app/loading.tsx`, or any `features/*/service`, `features/*/schema`, `features/*/store` consumed by client components — keep server components as the default and mark at the leaf.
+
+## Design system
+
+`DESIGN.md` is the **source of truth for every visual decision** — color, typography, spacing, components, layout, voice, motion, and the 14 anti-patterns. This repo's `AGENTS.md` describes _how the code works_; `DESIGN.md` describes _how it must look_. Neither restates the other. When they seem to conflict, `DESIGN.md` wins for anything visual.
+
+Read `DESIGN.md` before touching any component under `components/sections/`, `components/layout/`, or `tailwind.config.ts`.
