@@ -56,11 +56,11 @@ Token ini adalah satu-satunya sumber kebenaran warna. mapped ke `tailwind.config
 
 Aturanakai warna — ini bagian yang paling sering dilanggar:
 
-- **Background halaman SELALU `cream`.** Bukan putih. Cards memakai `paper` supaya ada satu tingkat pemisahan. Halaman tanpa section gelap tidak perlu bg gelap —-itulahSection 1 yang lexer.
+- **Background halaman dasarnya `cream`; ritme section lain diatur di §10.** Bukan putih polos. Cards memakai `paper` supaya ada satu tingkat pemisahan. Halaman tanpa section gelap tidak perlu bg gelap —-itulahSection 1 yang lexer.
 - **`accent` adalah tanda baca, bukan chrome.** Boleh muncul di: CTA utama, **satu kata** di dalam heading (dengan style italic serif, bukan warna), eyebrow label di atas section heading, link inline di body, dan angka metrik di portofolio. Di luar itu: jangan.
 - **Maksimal satu kemunculan `accent` per viewport.** Kalau dua section terlihat bersamaan (setelah scroll),_section yang bawah belum boleh pakai accent. Ini yang bikin halaman terasa mahal.
 - **Tidak ada warna lain.** Tidak ada abu-abu di luar `hairline`/`muted`, tidak ada warna status, tidak ada warna dari identitas proyek di portofolio. Biru + navy + netral itu seluruh palet.
-- Tidak ada `shadow` di mana pun. Pemisahan antar card hanya lewat `hairline` 1px. Kalau sebuah card butuh "mengambang", itu tanda desainnya salah, bukan tanda perlu shadow.
+- Tidak ada `shadow`; pemisahan lewat `hairline` 1px. Tidak ada bayangan di komponen mana pun.
 
 Tailwind mapping:
 
@@ -171,7 +171,7 @@ Semua komponen di `components/sections/` kecuali primitif di `components/ui/`.
 ## 6. Layout
 
 - **Satu halaman panjang**, scroll dengan anchor navigation. Header sticky dengan backdrop-blur, bg `cream`/`rgba(251,250,247,.9)`, `border-bottom: 1px` `hairline`, tinggi `76px`.
-- Section berurutan: `Hero → Pull quote → Layanan → Proses → Portofolio → Tim → Kontak → Footer`.
+- Section berurutan: `Hero → Tentang → Layanan → Proses → Portofolio → Kontak → Footer`. (Pull quote dan Tim dihapus; bisa kembali lewat revisi dokumen ini.)
 - **Hero mengisi sisa viewport dan isinya center vertikal.** `min-height: calc(100dvh - 76px)` — `76px` adalah tinggi header sticky, jadi hero tepat mengisi layar tanpa shove. Pakai **`dvh`**, bukan `vh`: address bar HP yang muncul/menghilang tidak boleh menggeser centering. Padding vertikal hero (`80px`/`96px`) hanya sebagai breathing room, bukan untuk mendorong konten ke bawah. Centering harus datang dari `min-height` plus flex, bukan dari padding — kalau padding yang kedua, blok akan terlihat melayang tinggi di layar besar.
 - **Section heading selalu center-aligned** dengan `max-width: 660px`. Konten (card grid) boleh full container width. Pola ini yang bikin halaman terasa seperti majalah, bukan landing page SaaS.
 - Card grid: layanan `2 kolom` (desktop), `1 kolom` (< 620px). Portofolio `3 kolom` → `1`. Tim `4 kolom` → `2` → `1`.
@@ -211,7 +211,7 @@ Motion di dokumen ini **sangat sedikit dan lambat**. Setiap transisi hanya `colo
 | Nav link       | `color`                              | `150ms` |
 | Button link    | tidak ada perubahan                  | —       |
 
-Larangan mutlak: tidak ada fade-in saat scroll, tidak ada parallax, tidak ada animasi loop, tidak ada animasi hero, tidak ada `framer-motion`. Halaman ini menang dengan tipografi dan whitespace, bukan gerakan. Animasi di sini akan langsung mengubah karakter brand dari "tenang" jadi "startupicorn".
+Larangan mutlak: tidak ada parallax, tidak ada animasi loop, tidak ada animasi hero, tidak ada `framer-motion`. Pengecualian terbatas diatur di §10 (reveal saat scroll dan zoom gambar portofolio). Halaman ini menang dengan tipografi dan whitespace, bukan gerakan. Animasi di sini akan langsung mengubah karakter brand dari "tenang" jadi "startupicorn".
 
 Kalau `--prefers-reduced-motion` relevan: karena tidak ada motion yang berarti, tidak perlu handling tambahan.
 
@@ -222,7 +222,7 @@ Kalau `--prefers-reduced-motion` relevan: karena tidak ada motion yang berarti, 
 Bagian ini yang paling load-bearing. Semuanya **dilarang**:
 
 1. **Drop shadow di card.** Pemisahan hanya `hairline` 1px.
-2. **Gradient pada background section.** Hanya boleh di `hero-vis` (tidak dipakai di style ini) dan area visual card portofolio.
+2. **Glow/cahaya dekoratif dan gradient berwarna mencolok.** Tidak ada gradient warna; latar selalu solid. Gradient hanya dipakai sebagai mask pemudaran dekorasi.
 3. **Warna aksen lebih dari satu kali per viewport.**
 4. **Heading bold.** Semua heading weight 300.
 5. **Body text di bawah 16px.**
@@ -231,10 +231,10 @@ Bagian ini yang paling load-bearing. Semuanya **dilarang**:
 8. **`text-transform: uppercase` di luar eyebrow.**
 9. **Ikon emoji sebagai dekorasi** (`💻 📱 🔗`). Kalau butuh ikon, pakai icon line-weight 1.5px, atau tidak ada.
 10. **Foto stok orang di ruang kerja.** Team pakai inisial, portofolio pakai angka/nama industri.
-11. **Card yang hover-nya translate/zoom.** Hanya border-color.
+11. **Card yang hover-nya translate/zoom.** Hanya border-color. Satu-satunya zoom: gambar screenshot portofolio, maks. 3% (§10).
 12. **Count-up number, marquee logo, testimonial carousel, FAQ accordion.** Tidak ada interaksi yang tidak melayani tujuan.
 13. **Copy yang mengandung salah satu kata terlarang di Section 7.**
-14. **Section dengan background gelap lebih dari satu** (pull quote + footer + contact boleh, tapi tidak boleh jadi pola berulang di tengah halaman).
+14. **Section gelap di tengah halaman.** Navy hanya untuk Kontak + Footer di ujung halaman.
 
 Setiap violation di atas harus diperbaiki, bukan diabaikan dengan alasan "penting untuk konversi".
 
@@ -251,6 +251,30 @@ Mockup referensi untuk 4 arah desain ada di folder temp (throwaway, bukan bagian
 ---
 
 ## Status dokumen ini
+
+## 10. Arah visual: garis ilustratif editorial (revisi 2026-10-09)
+
+Konsep tidak berubah: **Light Editorial Calm**. Revisi ini menambah lapisan ilustrasi dan struktur editorial di atasnya (referensi: anthropic.com, notion.com). Aturan §2–§9 yang bertentangan sudah disesuaikan.
+
+| Elemen               | Aturan                                                                                                                                                                                                                                                     |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Ilustrasi garis**  | `components/ui/Illustration.tsx`: stroke navy 1.4px, satu detail `accent`, tanpa fill warna selain putih/`#EEF3FA`. Hero memakai blueprint; Layanan dan Proses memakai ilustrasi kecil 140×72px di kolom kanan (disembunyikan di mobile). Tanpa foto stok. |
+| **Baris bernomor**   | Layanan dan Proses berupa baris `96px / 1fr / 140px`, dipisah `border-top` `hairline` (item terakhir juga `border-bottom`). Angka serif italic 56px: navy di Layanan, `accent` di Proses. Bukan kartu.                                                     |
+| **Chip**             | label ruang lingkup/hasil: radius 4px, border `hairline`, bg `paper`, 13px. Tidak membawa klaim angka.                                                                                                                                                     |
+| **Figur portofolio** | screenshot dalam bingkai kertas (padding 14px, border `hairline`, radius 2px) dengan keterangan "Gbr. n" serif italic `accent`. Gambar boleh zoom 3% saat hover.                                                                                           |
+| **Ikon**             | Line 1.5px `currentColor` dari `components/ui/Icon.tsx`, kotak 40–48px berborder `hairline`, bg `cream`. Tanpa emoji.                                                                                                                                      |
+| **Hero**             | dua kolom di `lg`: teks rata kiri + panel ilustrasi `cream`. Motif garis `.hero-motif` tetap. Tanpa glow, tanpa lencana.                                                                                                                                   |
+| **Reveal**           | `.reveal`: fade + naik 18px sekali saat masuk viewport. CSS murni (`animation-timeline: view()`), nonaktif di `prefers-reduced-motion`.                                                                                                                    |
+| **Eyebrow section**  | diapit dua garis `accent/40` 32px.                                                                                                                                                                                                                         |
+| **Card hover**       | `.card-lift`: hanya `border-color` → `navy`. Tanpa bayangan, tanpa translate.                                                                                                                                                                              |
+
+**Latar section (`tone` di `Section`).** Ritme warna antar section: `Hero` cream → `Tentang` mist → `Layanan` cream → `Proses` paper → `Portofolio` mist → `Kontak` navy → Footer navy. `mist` = solid `#EEF3FA` (tanpa gradient); `paper` = putih dengan `border-y` hairline. Navy hanya untuk Kontak dan Footer (yang bersebelahan).
+
+**Dekorasi latar** (`components/ui/Decor.tsx`): `Rings` (lingkaran konsentris blueprint), `GridBg` (grid garis tipis memudar), `DotsBg`, `Crosses` (tanda plus registrasi). Opasitas 7–25%, selalu di belakang konten, tidak menerima klik, memudar ke tepi. Tidak ada glow berwarna.
+
+Yang tetap dilarang: shadow, glow sebagai dekorasi, parallax, animasi loop, marquee, count-up, radius > 8px, heading tebal.
+
+---
 
 Dokumen ini adalah **source of truth untuk setiap keputusan visual** di repo ini. Tidak ada dokumen lain yang boleh mengulang atau menimpa aturan di sini — kalau spec atau komentar kode bertentangan dengan dokumen ini, dokumen ini yang menang.
 

@@ -3,7 +3,8 @@ import { Container } from "../ui/Section";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-navy py-14 text-[14px] text-white/65">
+    <footer className="relative bg-navy py-14 text-[14px] text-white/65">
+      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-accent/40" />
       <Container>
         <div className="flex flex-col items-start justify-between gap-8 sm:flex-row sm:items-center">
           <div className="flex flex-col gap-3">
@@ -18,6 +19,9 @@ export function SiteFooter() {
           </div>
 
           <div className="flex flex-wrap gap-x-7 gap-y-2">
+            <a href="#tentang" className="transition-colors duration-150 hover:text-white">
+              Tentang
+            </a>
             <a href="#layanan" className="transition-colors duration-150 hover:text-white">
               Layanan
             </a>
@@ -26,9 +30,6 @@ export function SiteFooter() {
             </a>
             <a href="#portofolio" className="transition-colors duration-150 hover:text-white">
               Portofolio
-            </a>
-            <a href="#tim" className="transition-colors duration-150 hover:text-white">
-              Tim
             </a>
             <a href="#kontak" className="transition-colors duration-150 hover:text-white">
               Kontak

@@ -16,6 +16,8 @@ const config: Config = {
         accent: "#2B7FFF",
         cream: "#FBFAF7",
         paper: "#FFFFFF",
+        mist: "#EEF3FA",
+        "mist-deep": "#DCE7F5",
         hairline: "#E7E5DF",
         text: "#0B2545",
         body: "#4A5C70",

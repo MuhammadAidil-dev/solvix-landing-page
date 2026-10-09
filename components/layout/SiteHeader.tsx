@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { Container } from "../ui/Section";
 
 const LINKS = [
+  { href: "#tentang", label: "Tentang" },
   { href: "#layanan", label: "Layanan" },
   { href: "#proses", label: "Proses" },
   { href: "#portofolio", label: "Portofolio" },
-  { href: "#tim", label: "Tim" },
 ];
 
 export function SiteHeader() {
