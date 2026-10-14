@@ -5,6 +5,7 @@ Next.js **16.4** App Router + React 19 + TypeScript + Tailwind + Zustand fronten
 ## Git safety (user rule)
 
 - **Never `git commit`, `git push`, or rewrite history without explicit user approval first.** Ask first. An instruction like "commit perubahan" authorizes one commit, not a standing pattern. Never force-push unless the user specifically asks for it.
+- **No AI attribution in commits.** Do not add `Co-Authored-By: Claude ...`, "Generated with Claude Code", or any similar trailer/footer to commit messages (or PR descriptions). The message contains only the change description.
 
 ## Baseline: verified state
 

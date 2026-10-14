@@ -4,7 +4,7 @@ import { BUSINESS_LINES, PROFILE } from "./data";
 
 export function About() {
   return (
-    <section id="tentang" className="relative bg-paper py-24 md:py-28">
+    <section id="tentang" className="relative overflow-hidden bg-paper py-24 md:py-28">
       <div className="mx-auto grid w-full max-w-[1240px] items-center gap-16 px-6 lg:grid-cols-2">
         <div>
           <h2 className="font-heading text-[clamp(30px,3.8vw,46px)] font-semibold leading-[1.15] tracking-[-0.015em]">
