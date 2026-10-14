@@ -59,10 +59,10 @@ Migrated from 14 → 16. Don't reintroduce these removed APIs:
 ## Layout and boundaries
 
 ```
-app/            Next App Router — layout, error, loading, icon.png, globals.css
-components/ui/  Primitives: Button, Section (Section + Container)
-components/layout/  SiteHeader (client), SiteFooter
-components/sections/ Hero, PullQuote, Services, Process, Portfolio, Team, Contact
+app/            Next App Router — layout (fonts), page, error, loading, icon.png, globals.css
+components/ui/  Primitives: Icon, Decor (blob/sparkle/doodle), Mark, Section (Container, SectionHeading), BrowserFrame, buttonStyles
+components/layout/  SiteHeader (client, scroll spy + dropdown), SiteFooter
+components/sections/ Hero, TrustStrip, Services, About, Stats, Process, Portfolio, Contact + data.ts (all page content)
 lib/            HTTP + config infrastructure: fetcher.ts, api-error.ts, config.ts, utils.ts
 stores/         Global session store (auth) — not used by the company profile page
 proxy.ts        Route guard (Next 16: exported function must be named `proxy`, Node runtime only)

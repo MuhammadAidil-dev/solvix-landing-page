@@ -1,55 +1,45 @@
-import { GridBg, Rings } from "../ui/Decor";
-import { Icon } from "../ui/Icon";
-import { Section } from "../ui/Section";
-
-const WHATSAPP_HREF = "https://wa.me/6282282873453";
-const EMAIL = "business@topsolvixlabs.my.id";
+import { DotsPattern, Sparkle } from "../ui/Decor";
+import { IconWhatsapp } from "../ui/Icon";
+import { Mark } from "../ui/Mark";
+import { EMAIL, WHATSAPP_HREF } from "./data";
 
 export function Contact() {
   return (
-    <Section
-      id="kontak"
-      tone="navy"
-      decor={
-        <>
-          <GridBg light />
-          <Rings className="-left-40 -top-40 h-[520px] w-[520px] text-white/[0.09]" />
-          <Rings className="-bottom-48 -right-40 h-[560px] w-[560px] text-accent/25" />
-        </>
-      }
-      eyebrow="Kontak"
-      heading={
-        <>
-          Ceritakan <em>masalah</em> Anda kepada kami.
-        </>
-      }
-      subheading="Kirim pesan lewat WhatsApp atau email. Kami membalas dalam 1×24 jam kerja dan memulai dengan konsultasi awal."
-    >
-      <div className="reveal relative mx-auto max-w-[760px] overflow-hidden rounded-[6px] border border-white/15 bg-white/[0.04] px-6 py-12 text-center md:px-12 md:py-14">
-        <div className="relative flex flex-wrap items-center justify-center gap-x-8 gap-y-5">
+    <section id="kontak" className="relative overflow-hidden bg-navy py-24 md:py-28">
+      <Sparkle className="left-[12%] top-24 h-8 w-8 text-accent" />
+      <Sparkle className="bottom-24 right-[14%] h-6 w-6 text-white/60" />
+      <DotsPattern id="contact-dots-l" className="-left-6 top-10 h-40 w-40 text-white/10" />
+      <DotsPattern id="contact-dots-r" className="-right-6 bottom-10 h-40 w-40 text-white/10" />
+      <div className="relative mx-auto w-full max-w-[1240px] px-6 text-center">
+        <h2 className="mx-auto max-w-[760px] font-heading text-[clamp(32px,4.4vw,52px)] font-semibold leading-[1.12] tracking-[-0.015em] text-white">
+          Ceritakan{" "}
+          <Mark variant="underline" tone="light">
+            masalah
+          </Mark>{" "}
+          Anda kepada kami
+        </h2>
+        <p className="mx-auto mt-6 max-w-[560px] text-[18px] leading-relaxed text-white/70">
+          Kirim pesan lewat WhatsApp atau email. Konsultasi gratis, dan kami balas dalam 1×24 jam
+          kerja.
+        </p>
+        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <a
             href={WHATSAPP_HREF}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 rounded-[4px] bg-paper px-8 py-[15px] text-[15px] font-medium text-navy transition-colors duration-200 hover:bg-cream"
+            className="inline-flex h-[48px] items-center gap-2.5 rounded-md bg-accent px-7 text-[16px] font-medium text-white transition-colors hover:bg-white hover:text-navy"
           >
-            <Icon name="chat" className="h-5 w-5" />
+            <IconWhatsapp className="h-5 w-5" />
             Hubungi via WhatsApp
           </a>
           <a
             href={`mailto:${EMAIL}`}
-            className="inline-flex items-center gap-2 px-1 pb-[2px] text-[15px] text-paper underline decoration-accent decoration-2 underline-offset-4"
+            className="inline-flex h-[48px] items-center gap-2.5 rounded-md border border-white/40 px-7 text-[16px] font-medium text-white transition-colors hover:border-white hover:bg-white/10"
           >
-            <Icon name="mail" className="h-5 w-5" />
             {EMAIL}
           </a>
         </div>
-
-        <p className="relative mt-10 inline-flex items-center justify-center gap-2 border-t border-white/15 pt-6 text-[14px] font-light text-white/60">
-          <Icon name="pin" className="h-4 w-4" />
-          Tembilahan, Indragiri Hilir, Riau
-        </p>
       </div>
-    </Section>
+    </section>
   );
 }

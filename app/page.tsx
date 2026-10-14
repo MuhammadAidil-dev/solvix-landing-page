@@ -6,6 +6,8 @@ import { Hero } from "../components/sections/Hero";
 import { Portfolio } from "../components/sections/Portfolio";
 import { Process } from "../components/sections/Process";
 import { Services } from "../components/sections/Services";
+import { Stats } from "../components/sections/Stats";
+import { TrustStrip } from "../components/sections/TrustStrip";
 
 export default function HomePage() {
   return (
@@ -13,8 +15,10 @@ export default function HomePage() {
       <SiteHeader />
       <main>
         <Hero />
-        <About />
+        <TrustStrip />
         <Services />
+        <About />
+        <Stats />
         <Process />
         <Portfolio />
         <Contact />

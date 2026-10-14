@@ -1,20 +1,18 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Source_Serif_4 } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 
-const sans = Plus_Jakarta_Sans({
+const heading = Outfit({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-sans",
+  weight: ["500", "600", "700"],
+  variable: "--font-heading",
   display: "swap",
 });
 
-const serif = Source_Serif_4({
+const body = Inter({
   subsets: ["latin"],
-  weight: "variable",
-  style: ["normal", "italic"],
-  axes: ["opsz"],
-  variable: "--font-serif",
+  weight: ["400", "500"],
+  variable: "--font-body",
   display: "swap",
 });
 
@@ -33,7 +31,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${sans.variable} ${serif.variable}`}>
+    <html lang="id" className={`${heading.variable} ${body.variable}`}>
       <body>{children}</body>
     </html>
   );
