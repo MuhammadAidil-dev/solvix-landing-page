@@ -30,7 +30,10 @@ function ServiceTile({ index, className }: { index: number; className?: string }
 function HeroDecor() {
   return (
     <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-      <Blob variant={1} className="-right-32 top-4 h-[520px] w-[520px] text-sun" />
+      <Blob
+        variant={1}
+        className="-right-32 top-4 h-[320px] w-[320px] text-sun md:h-[520px] md:w-[520px]"
+      />
       <Blob variant={2} className="-left-28 bottom-[-80px] h-[380px] w-[380px] text-mist-deep" />
       <ScribbleRing className="left-[22%] top-[14%] hidden h-20 w-20 text-accent/50 xl:block" />
       <DoodleArrow className="bottom-[22%] left-[18%] hidden h-12 w-24 rotate-[28deg] text-navy/50 xl:block" />
@@ -50,9 +53,12 @@ function HeroDecor() {
 
 export function Hero() {
   return (
-    <section id="atas" className="relative overflow-hidden bg-paper">
+    <section
+      id="atas"
+      className="relative flex min-h-[calc(100dvh-68px)] items-center overflow-hidden bg-paper"
+    >
       <HeroDecor />
-      <div className="relative mx-auto flex w-full max-w-[860px] flex-col items-center px-6 pb-24 pt-20 text-center md:pb-32 md:pt-28">
+      <div className="relative mx-auto flex w-full max-w-[860px] flex-col items-center px-6 py-16 text-center md:py-20">
         <h1 className="font-heading text-[clamp(38px,5.2vw,64px)] font-semibold leading-[1.1] tracking-[-0.02em]">
           Kami membangun <Mark variant="underline">sistem digital</Mark> sesuai kebutuhan bisnis
           Anda.
