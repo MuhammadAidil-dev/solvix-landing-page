@@ -1,107 +1,87 @@
-import { Crosses, DotsBg, Rings } from "../ui/Decor";
-import { Spot, type SpotName } from "../ui/Illustration";
-import { Section } from "../ui/Section";
+import { Blob, ScribbleRing, Sparkle, Squiggle, type BlobVariant } from "../ui/Decor";
+import { IconArrow } from "../ui/Icon";
+import { Mark } from "../ui/Mark";
+import { SectionHeading } from "../ui/Section";
+import { SERVICES } from "./data";
 
-// PLACEHOLDER COPY — ganti sebelum situs dianggap final (spec §5.1).
-const SERVICES: {
-  title: string;
-  description: string;
-  spot: SpotName;
-  scope: string[];
-}[] = [
-  {
-    title: "Aplikasi Web",
-    description: "Aplikasi web kustom yang terdokumentasi dan mudah dirawat tim Anda.",
-    spot: "web",
-    scope: ["Dashboard admin", "Portal pelanggan", "Aplikasi internal"],
-  },
-  {
-    title: "Aplikasi Mobile",
-    description: "Aplikasi iOS dan Android, native maupun cross-platform.",
-    spot: "mobile",
-    scope: ["iOS", "Android", "Cross-platform"],
-  },
-  {
-    title: "Integrasi Sistem",
-    description:
-      "Menghubungkan sistem lama, API pihak ketiga, dan basis data internal dalam satu alur.",
-    spot: "integration",
-    scope: ["REST API", "Sistem legacy", "Sinkronisasi data"],
-  },
-  {
-    title: "Dashboard & Analitik",
-    description:
-      "Data operasional ditampilkan jelas, sehingga keputusan bisnis lebih cepat diambil.",
-    spot: "dashboard",
-    scope: ["Laporan real-time", "Visualisasi data", "Ekspor laporan"],
-  },
-  {
-    title: "Otomasi Proses",
-    description: "Pekerjaan manual yang berulang dialihkan ke alur kerja otomatis.",
-    spot: "automation",
-    scope: ["Alur kerja", "Notifikasi otomatis", "Penjadwalan tugas"],
-  },
-  {
-    title: "Pemeliharaan & Support",
-    description: "Monitoring, perbaikan bug, dan peningkatan performa setelah sistem berjalan.",
-    spot: "support",
-    scope: ["Monitoring", "Perbaikan bug", "Optimasi performa"],
-  },
+const CARD_TINTS = [
+  { bg: "bg-sky-soft", blob: "text-sky" },
+  { bg: "bg-sun-soft", blob: "text-sun-deep" },
+  { bg: "bg-mist", blob: "text-mist-deep" },
+  { bg: "bg-sky-soft", blob: "text-sky" },
+  { bg: "bg-sun-soft", blob: "text-sun-deep" },
 ];
-
-const NUMERALS = ["i.", "ii.", "iii.", "iv.", "v.", "vi."];
 
 export function Services() {
   return (
-    <Section
-      id="layanan"
-      decor={
-        <>
-          <Rings className="-left-48 top-1/3 h-[520px] w-[520px] text-navy/[0.07]" />
-          <Rings className="-right-40 bottom-10 h-[380px] w-[380px] text-accent/[0.12]" />
-          <DotsBg className="right-0 top-24 hidden h-[360px] w-[360px] lg:block" />
-          <Crosses className="left-8 top-16 hidden text-navy/25 lg:block" />
-        </>
-      }
-      eyebrow="Layanan"
-      heading={
-        <>
-          Enam layanan, dari <em>rancangan</em> sampai pemeliharaan.
-        </>
-      }
-      subheading="Satu tim menangani seluruh siklus produk digital Anda."
-    >
-      <ol className="mx-auto max-w-[960px]">
-        {SERVICES.map((service, i) => (
-          <li
-            key={service.title}
-            className="reveal grid items-center gap-x-8 gap-y-5 border-t border-hairline py-9 last:border-b md:grid-cols-[96px_1fr_140px]"
-          >
-            <p className="font-serif text-[56px] italic leading-none text-navy">{NUMERALS[i]}</p>
+    <section id="layanan" className="relative overflow-hidden bg-cream py-24 md:py-28">
+      <Blob variant={2} className="-right-24 -top-16 h-[360px] w-[360px] text-sun" />
+      <Blob variant={3} className="-bottom-24 -left-24 h-[320px] w-[320px] text-mist-deep" />
+      <Sparkle className="left-[8%] top-24 h-7 w-7 text-accent" />
+      <Sparkle className="right-[9%] top-[46%] h-5 w-5 text-navy" />
+      <Squiggle className="bottom-12 right-[12%] h-3 w-28 text-accent/50" />
+      <ScribbleRing className="bottom-[22%] left-[5%] h-16 w-16 text-navy/30" />
 
-            <div>
-              <h3 className="text-[22px] font-normal leading-[1.2] tracking-[-0.015em]">
-                {service.title}
-              </h3>
-              <p className="mt-2.5 max-w-[540px] text-[16px] font-light text-body">
-                {service.description}
-              </p>
-              <ul className="mt-5 flex flex-wrap gap-2">
-                {service.scope.map((item) => (
-                  <li
-                    key={item}
-                    className="rounded-[4px] border border-hairline bg-paper px-3 py-1.5 text-[13px] font-light text-body"
+      <div className="relative mx-auto w-full max-w-[1240px] px-6">
+        <SectionHeading
+          title={
+            <>
+              Lima layanan dalam <Mark variant="brush">satu tim</Mark>
+            </>
+          }
+          lead="Dari rancangan sampai pemeliharaan, semua siklus produk digital Anda ditangani di satu tempat."
+        />
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
+          {SERVICES.map((s, i) => {
+            const tint = CARD_TINTS[i % CARD_TINTS.length];
+            return (
+              <a
+                key={s.title}
+                href="#kontak"
+                className={`group relative flex flex-col overflow-hidden rounded-2xl border border-hairline bg-paper transition-all duration-200 hover:border-accent hover:shadow-[0_16px_40px_-16px_rgba(43,127,255,0.35)] lg:col-span-2 ${
+                  i === 3 ? "lg:col-start-2" : ""
+                }`}
+              >
+                <div className={`relative h-[132px] overflow-hidden ${tint.bg}`}>
+                  <Blob
+                    variant={((i % 3) + 1) as BlobVariant}
+                    className={`-right-6 -top-10 h-[190px] w-[190px] ${tint.blob}`}
+                  />
+                  <Sparkle className="bottom-5 right-8 h-5 w-5 text-accent/70" />
+                  <span className="absolute right-6 top-5 font-heading text-[15px] font-semibold text-navy/40">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span
+                    className={`absolute bottom-0 left-7 flex h-[68px] w-[68px] translate-y-1/2 items-center justify-center rounded-2xl text-white ring-4 ring-paper transition-transform duration-200 group-hover:-rotate-6 ${s.tile}`}
                   >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <Spot name={service.spot} className="hidden h-[72px] w-full text-navy md:block" />
-          </li>
-        ))}
-      </ol>
-    </Section>
+                    <s.icon className="h-8 w-8" />
+                  </span>
+                </div>
+                <div className="flex flex-1 flex-col px-7 pb-7 pt-12">
+                  <h3 className="font-heading text-[21px] font-semibold leading-tight text-navy">
+                    {s.title}
+                  </h3>
+                  <p className="mt-2.5 text-[16px] leading-relaxed text-body">{s.description}</p>
+                  <ul className="mt-5 flex flex-wrap gap-2">
+                    {s.scope.map((item) => (
+                      <li
+                        key={item}
+                        className="rounded-full bg-mist px-3 py-1 text-[13px] font-medium text-navy"
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-[15px] font-medium text-accent">
+                    Diskusikan
+                    <IconArrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }

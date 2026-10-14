@@ -1,8 +1,8 @@
 # DESIGN.md — PT TOP SOLVIX LABS
 
-Design system untuk company profile `solvix-landing`. Dokumen ini adalah kontrak visual: kalau sebuah keputusan tidak ada di sini, jangan Creativity — tanya dulu.
+Design system untuk company profile `solvix-landing`. Dokumen ini adalah kontrak visual: kalau sebuah keputusan tidak ada di sini, jangan berkreasi — tanya dulu.
 
-Gaya: **Light Editorial Calm** (referensi: Stripe, Anthropic). Prinsip: banyak whitespace, tipografi yang menanggung beban visual, **satu** sistem emphasis, warna aksen diperlakukan sebagai tanda baca bukan dekorasi.
+Gaya: **Friendly Flat Doodle**. Tampilan ramah, cerah, dan terstruktur: permukaan **flat** (warna solid, tanpa gradien), **bentuk organik** (blob) sebagai latar, **aksen doodle gambar tangan** (garis bergelombang, lingkaran coretan, panah), **ikon dalam tile berwarna**, dan **tipografi geometris yang tebal-sedang**. Prinsip: satu sistem emphasis (penanda gambar tangan di satu kata heading), warna aksen sebagai tanda baca, dekorasi selalu di belakang konten.
 
 ---
 
@@ -22,7 +22,7 @@ Brand kit menyediakan varian berlatar **putih** dan berlatar **navy**. Pilihanny
 | `logo-on-navy.png`  | navy `#0B2545` | permukaan navy (footer)   |
 | `icon.png`          | putih          | favicon / app icon        |
 
-Varian navbar memakai file **ber-alpha** (bukan berlatar putih). Alasannya teknis, bukan selera: navbar memakai `cream` `#FBFAF7`, dan logo berlatar putih `#FFFFFF` di atasnya memunculkan kotak putih yang subtly berbeda — junction yang selalu dikeluhkan. File transparan menghapus junction itu tanpa mengubah warna background apa pun. Warna mark sendiri tidak berubah: `#0B2545` 91% + `#2B7FFF` 9%, persis sama seperti varian berlatar putih.
+Varian navbar memakai file **ber-alpha** (bukan berlatar putih). Alasannya teknis, bukan selera: navbar memakai `paper` `#FFFFFF` dengan transparansi 95%, dan logo berlatar putih `#FFFFFF` di atasnya memunculkan kotak putih yang subtly berbeda — junction yang selalu dikeluhkan. File transparan menghapus junction itu tanpa mengubah warna background apa pun. Warna mark sendiri tidak berubah: `#0B2545` 91% + `#2B7FFF` 9%, persis sama seperti varian berlatar putih.
 
 Ukuran render wajib mengikuti **rasio kanvas `1493:388`**, bukan rasio mark. `next/image` diberi dimensi dalam pixel kanvas; memakai `width: 140, height: 26` membuat mark ter-render gepeng pada 71.5% tinggi sebenarnya. Nilai yang dipakai di navbar: `154×40` (error rasio 0.00%).
 
@@ -43,24 +43,37 @@ Watermark yang salah: nuansa "startupicorn" yang dehumanis, gradient ungu-merah,
 
 ## 2. Color
 
-Token ini adalah satu-satunya sumber kebenaran warna. mapped ke `tailwind.config.ts` → `theme.extend.colors`.
+Token ini adalah satu-satunya sumber kebenaran warna, dipetakan ke `tailwind.config.ts` → `theme.extend.colors`.
 
-| Token       | Hex       | Token      | Hex       |
-| ----------- | --------- | ---------- | --------- |
-| `navy`      | `#0B2545` | `cream`    | `#FBFAF7` |
-| `navy-soft` | `#1B3A5C` | `paper`    | `#FFFFFF` |
-| `accent`    | `#2B7FFF` | `hairline` | `#E7E5DF` |
-| `text`      | `#0B2545` |            |           |
-| `body`      | `#4A5C70` |            |           |
-| `muted`     | `#8A97A5` |            |           |
+| Token         | Hex       | Peran                                              |
+| ------------- | --------- | -------------------------------------------------- |
+| `navy`        | `#0B2545` | teks utama, permukaan Kontak                       |
+| `navy-soft`   | `#1B3A5C` | tile ikon gelap                                    |
+| `accent`      | `#2B7FFF` | CTA, kata emphasis, nomor, centang, tile ikon      |
+| `accent-soft` | `#7AA8F5` | tile ikon (variasi)                                |
+| `accent-pale` | `#B9CFF0` | tile ikon (variasi)                                |
+| `paper`       | `#FFFFFF` | latar halaman dan kartu                            |
+| `cream`       | `#FBFAF7` | latar section selang-seling, strip, header jendela |
+| `mist`        | `#EEF3FA` | chip, kotak ikon kecil, latar gambar               |
+| `mist-deep`   | `#DCE7F5` | bentuk dekoratif biru                              |
+| `sky`         | `#C9DDFB` | bentuk dekoratif di header kartu                   |
+| `sky-soft`    | `#E3EEFF` | header kartu layanan                               |
+| `sun`         | `#FFE9A8` | bentuk dekoratif kuning besar                      |
+| `sun-deep`    | `#FFE39A` | bentuk dekoratif kuning di header kartu            |
+| `sun-soft`    | `#FFF3CF` | header kartu layanan                               |
+| `hairline`    | `#E7E5DF` | border 1px                                         |
+| `text`        | `#0B2545` | alias `navy`                                       |
+| `body`        | `#4A5C70` | teks paragraf                                      |
+| `muted`       | `#8A97A5` | teks sekunder, label                               |
 
-Aturanakai warna — ini bagian yang paling sering dilanggar:
+Aturan warna:
 
-- **Background halaman dasarnya `cream`; ritme section lain diatur di §10.** Bukan putih polos. Cards memakai `paper` supaya ada satu tingkat pemisahan. Halaman tanpa section gelap tidak perlu bg gelap —-itulahSection 1 yang lexer.
-- **`accent` adalah tanda baca, bukan chrome.** Boleh muncul di: CTA utama, **satu kata** di dalam heading (dengan style italic serif, bukan warna), eyebrow label di atas section heading, link inline di body, dan angka metrik di portofolio. Di luar itu: jangan.
-- **Maksimal satu kemunculan `accent` per viewport.** Kalau dua section terlihat bersamaan (setelah scroll),_section yang bawah belum boleh pakai accent. Ini yang bikin halaman terasa mahal.
-- **Tidak ada warna lain.** Tidak ada abu-abu di luar `hairline`/`muted`, tidak ada warna status, tidak ada warna dari identitas proyek di portofolio. Biru + navy + netral itu seluruh palet.
-- Tidak ada `shadow`; pemisahan lewat `hairline` 1px. Tidak ada bayangan di komponen mana pun.
+- **Latar halaman `paper`; `cream` dipakai selang-seling.** Ritme latar: Hero `paper` → strip legal `cream` → Layanan `cream` → Tentang `paper` → Angka `cream` → Proses `paper` → Portofolio `paper` → Kontak `navy` → Footer `navy` (dipisah dari Kontak oleh garis `white/10`). Antar section yang sama-sama terang, pemisahnya adalah bentuk dekoratif, bukan perubahan warna.
+- **`accent` adalah warna aksi dan penanda.** Dipakai di: tombol utama, tepi tombol sekunder, kata emphasis di heading, nomor langkah dan angka statistik, centang, link "Diskusikan", dan tile ikon. Bukan untuk blok latar besar.
+- **`sun` (kuning) hanya untuk bentuk dekoratif** — blob latar dan header kartu. Tidak pernah untuk teks, tombol, border, atau ikon.
+- **Tidak ada warna lain.** Tidak ada hijau/merah/ungu, tidak ada warna status, tidak ada warna dari identitas proyek di portofolio. Biru + navy + kuning dekoratif + netral itu seluruh palet.
+- **Tidak ada gradien.** Semua permukaan solid. Tidak ada glow berwarna dan tidak ada `blur` dekoratif.
+- **Bayangan hanya untuk permukaan yang "terangkat"**: bingkai browser, kartu profil perusahaan, dropdown menu, dan hover kartu layanan. Bayangan lembut, rendah opasitas, berwarna `navy`/`accent` transparan. Tombol, teks, chip, dan kartu biasa tidak memakai bayangan.
 
 Tailwind mapping:
 
@@ -69,8 +82,17 @@ colors: {
   navy: "#0B2545",
   "navy-soft": "#1B3A5C",
   accent: "#2B7FFF",
+  "accent-soft": "#7AA8F5",
+  "accent-pale": "#B9CFF0",
   cream: "#FBFAF7",
   paper: "#FFFFFF",
+  mist: "#EEF3FA",
+  "mist-deep": "#DCE7F5",
+  sky: "#C9DDFB",
+  "sky-soft": "#E3EEFF",
+  sun: "#FFE9A8",
+  "sun-deep": "#FFE39A",
+  "sun-soft": "#FFF3CF",
   hairline: "#E7E5DF",
   text: "#0B2545",
   body: "#4A5C70",
@@ -84,106 +106,121 @@ colors: {
 
 ## 3. Typography
 
-Dua keluarga saja. Tidak ada font display ketiga, tidak ada mono.
+Dua keluarga, dimuat lewat `next/font` di `app/layout.tsx`:
 
-- **Plus Jakarta Sans** — seluruh halaman. Weight yang boleh dipakai: `300`, `400`, `500`. **Jarang `600`.** Kalau butuh lebih tegas, naikkan size atau turunkan warna, bukan tambah bold.
-- **Source Serif 4, italic** — **hanya** untuk satu kata/frasa emphasis di dalam heading, dan angka besar di portofolio. Ini satu-satunya sumber emphasis di seluruh sistem.
+- **Outfit** — heading, nomor, dan angka besar. Weight `500`, `600`, `700`. Class: `font-heading` (CSS variable `--font-heading`).
+- **Inter** — seluruh teks lain: paragraf, label, tombol, navigasi. Weight `400`, `500`. Default `body` (CSS variable `--font-body`, class `font-sans`).
+
+Tidak ada font ketiga, tidak ada serif, tidak ada mono.
 
 ### Type ramp
 
-| Peran       | Desktop                    | Mobile | Weight           | Tracking   | Line-height |
-| ----------- | -------------------------- | ------ | ---------------- | ---------- | ----------- |
-| Hero H1     | `clamp(36px, 5.6vw, 66px)` | —      | 300              | `-0.028em` | 1.1         |
-| Section H2  | `clamp(28px, 3.6vw, 44px)` | —      | 300              | `-0.025em` | 1.18        |
-| Card H3     | `20px`                     | —      | 500              | `-0.012em` | 1.25        |
-| Sub-heading | `22px`                     | —      | 400              | `-0.015em` | 1.2         |
-| Body        | `16px`                     | —      | 300              | normal     | 1.65        |
-| Card body   | `15.5px`                   | —      | 300              | normal     | 1.7         |
-| Eyebrow     | `12px`                     | —      | 500              | `0.2em`    | 1           |
-| Big number  | `26px`                     | —      | 300 serif italic | `-0.02em`  | 1           |
-| Nav link    | `14.5px`                   | —      | 400              | normal     | 1           |
-| Button      | `15px`                     | —      | 500              | normal     | 1           |
+| Peran           | Ukuran                     | Font / Weight | Tracking   | Line-height |
+| --------------- | -------------------------- | ------------- | ---------- | ----------- |
+| Hero H1         | `clamp(38px, 5.2vw, 64px)` | Outfit 600    | `-0.02em`  | 1.1         |
+| Section H2      | `clamp(30px, 3.8vw, 46px)` | Outfit 600    | `-0.015em` | 1.15        |
+| Kontak H2       | `clamp(32px, 4.4vw, 52px)` | Outfit 600    | `-0.015em` | 1.12        |
+| Judul proyek    | `clamp(26px, 3vw, 36px)`   | Outfit 600    | normal     | 1.25        |
+| Angka statistik | `clamp(44px, 5vw, 64px)`   | Outfit 600    | normal     | 1           |
+| Card H3         | `17px`–`21px`              | Outfit 600    | normal     | 1.25        |
+| Lead (hero)     | `20px`                     | Inter 400     | normal     | 1.6         |
+| Lead (section)  | `18px`                     | Inter 400     | normal     | 1.6         |
+| Body            | `16px`                     | Inter 400     | normal     | 1.6         |
+| Chip / label    | `13px`–`15px`              | Inter 500     | normal     | 1.3         |
+| Nav link        | `15px`                     | Inter 500     | normal     | 1           |
+| Button          | `16px` (nav `15px`)        | Inter 500     | normal     | 1           |
 
-Aturan yang tidak bisa ditawar:
+Aturan:
 
-- **Prose minimal 16px.** Card body boleh 15.5px sesuai ramp di atas — itu satu-satunya pengecualian. Tidak ada 14px atau lebih kecil untuk konten; nav link 14.5px dan eyebrow 12px itu navigasi dan label, bukan konten yang dibaca.
-- **Body weight 300.** Ini yang bikin terasa tenang. Jangan pakai 400 untuk body copy; 400 hanya untuk card H3 dan nav.
-- **Heading selalu weight 300.** Tidak ada headingtebal di dokumen ini. Kalau sebuah heading terasa lemah, naikkan `letter-spacing` atau ubah strukturnya.
-- Emphasis = **italic serif**, selalu. Tidak pernah pakai `font-bold` atau warna sebagai alat emphasis lain. Kalau butuh dua kata menonjol dalam satu heading, dua kata itu italic serif.
-- Tidak ada `text-transform: uppercase` selain eyebrow label.
-
-Font loading: pakai `next/font` di `app/layout.tsx` dengan `display: "swap"`, variable font, dan expose sebagai CSS variable (`--font-sans`, `--font-serif`). Jangan `<link>` ke Google Fonts di markup — itu hanya benar di mockup throwaway.
+- **Prose minimal 16px.** Pengecualian hanya untuk elemen non-prosa: chip (13px), label dan catatan di kartu profil (13px–14px), teks tile (14px).
+- **Heading selalu Outfit 600**, tidak ada heading `font-bold` 700 kecuali nomor kecil yang sengaja dibedakan. Tidak ada heading tipis.
+- **Emphasis = `Mark`** (`components/ui/Mark.tsx`): penanda gambar tangan di **tepat satu** kata/frasa per heading. Tiga varian: `underline` (garis bergelombang), `circle` (dilingkari), `brush` (sapuan stabilo). Tidak pernah memakai italic, bold ekstra, atau warna sebagai alat emphasis lain.
+- Tidak ada `text-transform: uppercase`.
+- Tidak ada teks terpusat di dalam kartu kecuali langkah Proses.
 
 ---
 
 ## 4. Spacing
 
-Base unit **4px**. Semua spacing kelipatan 4.
+Base unit **4px**. Semua spacing kelipatan 4 (kecuali ukuran mikro yang sudah ada di komponen, mis. `13px` chip).
 
-| Konteks                             | Nilai                                               |
-| ----------------------------------- | --------------------------------------------------- |
-| Inline terkecil (ikon ↔ teks, chip) | `8px`                                               |
-| Padding button                      | `15px 32px`                                         |
-| Padding card                        | `44px 38px`                                         |
-| Gap antar elemen dalam card         | `12px`–`16px`                                       |
-| Padding antar section               | `110px` atas/bawah                                  |
-| Gap grid antar card                 | `24px`                                              |
-| Max width konten                    | `1120px`, padding horizontal `36px` (mobile `24px`) |
-| Section eyebrow → heading           | `28px`                                              |
-| Heading → sub-heading               | `18px`                                              |
-| Sub-heading → grid card             | `64px`                                              |
+| Konteks                    | Nilai                                          |
+| -------------------------- | ---------------------------------------------- |
+| Tinggi header              | `68px`                                         |
+| Padding section            | `96px` (mobile) / `112px` (`md`) atas/bawah    |
+| Padding hero               | `80px`/`96px` atas, `96px`/`128px` bawah       |
+| Max width konten           | `1240px`, padding horizontal `24px`            |
+| Max width teks hero        | `860px` (tengah)                               |
+| Max width heading section  | `760px` (tengah)                               |
+| Heading section → konten   | `56px`                                         |
+| Gap antar kartu            | `24px`                                         |
+| Gap antar baris portofolio | `96px`                                         |
+| Tinggi tombol              | `48px` (nav `40px`), padding horizontal `28px` |
 
-- Padding section **tidak** boleh dikompres di mobile. `110px → 80px` boleh terjadi, `110px → 40px` tidak. Whitespace yang hilang adalah yang bikin halaman terasa sempit di HP.
-- Tidak ada nilai spacing ganjil: `35px`, `22px`, `13px` salah.
+- Padding section tidak boleh dikompres di mobile di bawah `96px`.
 
 ---
 
 ## 5. Components
 
-Semua komponen di `components/sections/` kecuali primitif di `components/ui/`.
+Komponen section ada di `components/sections/`, primitif di `components/ui/`.
 
-**Section wrapper** — setiap section punya bentuk yang sama: eyebrow → heading (dengan satu kata italic serif) → sub-heading opsional → konten. Section wrapper hanya menangani spacing dan max-width, tidak warna background.
-
-```tsx
-<Section id="layanan" eyebrow="Layanan">
-  <h2>Enam layanan untuk <em>siklus hidup</em> produk digital Anda.</em></h2>
-  <p>Dari riset kebutuhan sampai pemeliharaan berkelanjutan.</p>
-</Section>
-```
-
-`em` di dalam `h2` = kata emphasis. Aturan: **tepat satu** `em` per heading, tidak lebih.
-
-| Komponen            | Spec                                                                                                                                                                                        |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Card**            | bg `paper`, border `1px` `hairline`, `radius: 6px`, **tanpa shadow**. Padding `44px 38px`. Hover hanya `border-color` → `navy`, **tanpa** translate/transform.                              |
-| **Button primary**  | bg `navy`, teks `paper`, `radius: 4px`, weight 500. Hover → bg `navy-soft`.                                                                                                                 |
-| **Button link**     | transparan, teks `accent`, `border-bottom: 2px` `accent`, padding-bottom `2px`. Hover: warnanya tetap.                                                                                      |
-| **Card numbered**   | nomor dengan **serif italic** `accent`, bukan mono, bukan bold sans. Ini yang membedakan dari template agency.                                                                              |
-| **Process item**    | grid `120px / 1fr`, nomor serif italic besar (`44px`), dipisah `border-top: 1px` `hairline`. Item terakhir punya `border-bottom`.                                                           |
-| **Portfolio card**  | area visual atas `170px` dengan bg `#EEF3FA` → `#DCE7F5` gradient dan angka serif italic besar `accent` (bukan foto stok). Body `paper`.                                                    |
-| **Team avatar**     | bulat, `112px`, gradient `#E6EEF9` → `#CFDEF2`, inisial `navy` weight 300. Bukan foto orang.                                                                                                |
-| **Pull quote band** | satu-satunya tempat `navy` full-bleed di halaman: bg `navy`, teks `paper`, serif italic, `padding: 80px 0`. Maksimal **satu** di seluruh halaman.                                           |
-| **Footer**          | bg `navy`, teks `rgba(255,255,255,.65)`, tautan hover → putih.                                                                                                                              |
-| **Hero motif**      | motif garis/grid teknis `hairline` di atas `cream`, opacity rendah (`4%`–`8%`). **Bukan** gradient, **bukan** foto, **bukan** ilustrasi. `cream` tetap warna background — §2 tidak berubah. |
+| Komponen             | Spec                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Button primary**   | bg `accent`, teks `paper`, `radius: 6px`, weight 500. Hover → bg `navy`. Kelas: `BTN_PRIMARY` di `components/ui/buttonStyles.ts`.                                                                                                                                                                                                                                                                                          |
+| **Button secondary** | transparan, border 1px `accent`, teks `accent`, `radius: 6px`. Hover → bg `accent`, teks `paper`. `BTN_SECONDARY`.                                                                                                                                                                                                                                                                                                         |
+| **Button di navy**   | utama: bg `accent`, hover bg `paper` teks `navy`. Sekunder: border `white/40`, hover bg `white/10`.                                                                                                                                                                                                                                                                                                                        |
+| **Header**           | sticky, bg `paper/95` + `backdrop-blur`, border-bottom `hairline`, tinggi 68px. Link nav: `radius: 6px`, hover bg `mist`, aktif (scroll spy) teks `accent`. "Layanan" membuka dropdown 2 kolom (tile ikon + judul + cakupan pertama). Satu tombol primary "Hubungi Kami".                                                                                                                                                  |
+| **Tile ikon**        | kotak `radius: 16px` berisi ikon garis putih, warna dari `accent` / `accent-soft` / `accent-pale` / `navy-soft`. Ukuran 84px (hero), 68px (kartu), 36px (dropdown).                                                                                                                                                                                                                                                        |
+| **Kartu layanan**    | bg `paper`, border `hairline`, `radius: 16px`. **Header berwarna** 132px (`sky-soft` / `sun-soft` / `mist`) berisi blob, sparkle, nomor `01–05`, dan tile ikon yang menumpang di tepi bawah header (ring `paper`). Isi: judul, deskripsi, chip cakupan, link "Diskusikan →". Hover: border → `accent`, bayangan lembut, tile miring 6°. Grid 6 kolom, tiap kartu `col-span-2`, kartu ke-4 `col-start-2` (3 + 2 di tengah). |
+| **Chip**             | `radius` penuh (pill), bg `mist`, teks `navy` 13px weight 500. Dipakai untuk cakupan layanan, hasil tahap proses, dan industri proyek (teks `accent`).                                                                                                                                                                                                                                                                     |
+| **Kartu profil**     | bg `paper`, border `hairline`, `radius: 12px`, bayangan lembut. Header `navy` dengan lencana "Terdaftar" (`accent`). Baris: kotak ikon 40px (`mist`) + label `muted` + nilai Outfit + catatan `body`.                                                                                                                                                                                                                      |
+| **Langkah proses**   | lingkaran `accent` 56px dengan nomor putih, ring 8px `paper`, dihubungkan garis putus-putus `accent/30` (desktop). Judul, deskripsi, chip hasil — rata tengah.                                                                                                                                                                                                                                                             |
+| **Bingkai browser**  | `components/ui/BrowserFrame.tsx`: border `hairline`, `radius: 12px`, bar atas `cream` dengan tiga titik dan URL, bayangan lembut. Berisi screenshot proyek (`object-top`).                                                                                                                                                                                                                                                 |
+| **Angka statistik**  | Outfit 600 `accent`, label `body`, dipisah garis vertikal `hairline` di desktop. Nilai diturunkan dari data (`STATS`), bukan di-hardcode.                                                                                                                                                                                                                                                                                  |
+| **Strip legal**      | bg `cream`, border atas/bawah `hairline`, daftar fakta berbadan hukum dengan centang `accent`.                                                                                                                                                                                                                                                                                                                             |
+| **Footer**           | bg `navy`, border-top `white/10`, teks `white/65`, judul kolom Outfit putih, tautan hover → putih. 4 kolom: brand, Layanan, Perusahaan, Kontak.                                                                                                                                                                                                                                                                            |
 
 ---
 
 ## 6. Layout
 
-- **Satu halaman panjang**, scroll dengan anchor navigation. Header sticky dengan backdrop-blur, bg `cream`/`rgba(251,250,247,.9)`, `border-bottom: 1px` `hairline`, tinggi `76px`.
-- Section berurutan: `Hero → Tentang → Layanan → Proses → Portofolio → Kontak → Footer`. (Pull quote dan Tim dihapus; bisa kembali lewat revisi dokumen ini.)
-- **Hero mengisi sisa viewport dan isinya center vertikal.** `min-height: calc(100dvh - 76px)` — `76px` adalah tinggi header sticky, jadi hero tepat mengisi layar tanpa shove. Pakai **`dvh`**, bukan `vh`: address bar HP yang muncul/menghilang tidak boleh menggeser centering. Padding vertikal hero (`80px`/`96px`) hanya sebagai breathing room, bukan untuk mendorong konten ke bawah. Centering harus datang dari `min-height` plus flex, bukan dari padding — kalau padding yang kedua, blok akan terlihat melayang tinggi di layar besar.
-- **Section heading selalu center-aligned** dengan `max-width: 660px`. Konten (card grid) boleh full container width. Pola ini yang bikin halaman terasa seperti majalah, bukan landing page SaaS.
-- Card grid: layanan `2 kolom` (desktop), `1 kolom` (< 620px). Portofolio `3 kolom` → `1`. Tim `4 kolom` → `2` → `1`.
-- Section **tidak** dimulai dengan padding vertikal yang.flowBH di mobile — rhythm dari spacing section yang konsisten sudah cukup.
-
-Hero dikecualikan dari dua aturan di halaman ini, dan hanya Hero: ia memakai `min-height` viewport + centering vertikal (§6), dan ia memakai motif garis tipis di atas `cream` (§5) alih-alih block warna atau gradient. Section setelah Hero tetap `110px` atas/bawah dan tetap tanpa background block.
-
-- Konten di dalam card selalu justify ke kiri. Tidak ada `text-center` di dalam card, kecuali Team.
+- **Satu halaman panjang**, scroll dengan anchor navigation. Urutan: `Hero → Strip legal → Layanan → Tentang → Angka → Proses → Portofolio → Kontak → Footer`.
+- **Hero rata tengah**: judul (satu `Mark`), lead, dua tombol, satu baris catatan bercentang. Dekorasi mengelilingi teks — bentuk blob, sparkle, doodle, dan **tile layanan** di kiri/kanan pada layar ≥ `xl`. Di bawah `xl`, tile pindah menjadi satu baris di bawah catatan.
+- **Heading section rata tengah** (`SectionHeading`), max-width `760px`. Konten boleh selebar container.
+- **Tentang**: dua kolom di `lg` — teks + daftar bidang usaha di kiri, kartu profil di kanan.
+- **Portofolio**: baris selang-seling (gambar kiri/teks kanan, lalu sebaliknya); di mobile selalu gambar dulu.
+- **Proses**: 5 kolom di `lg`, 2 kolom di `md`, 1 kolom di mobile.
+- Konten di dalam kartu rata kiri.
+- Anchor: `#atas`, `#tentang`, `#layanan`, `#proses`, `#portofolio`, `#kontak`. `scroll-padding-top: 84px` mengkompensasi header.
 
 ---
 
-## 7. Voice
+## 7. Dekorasi
+
+Dekorasi adalah bagian dari identitas, tetapi tidak pernah bersaing dengan konten. Semua ada di `components/ui/Decor.tsx` dan `Mark.tsx`.
+
+| Elemen                      | Spec                                                                                                  |
+| --------------------------- | ----------------------------------------------------------------------------------------------------- |
+| **Blob**                    | bentuk organik solid, 3 varian. Warna dari token (`sun`, `mist-deep`, `sky`, `sun-deep`), tanpa blur. |
+| **Sparkle**                 | bintang empat sudut solid, `accent` atau `navy` (di navy: `white/60`). Kecil: 20–32px.                |
+| **Squiggle**                | garis bergelombang 3.5px, `accent/50` atau `navy/40`.                                                 |
+| **ScribbleRing**            | lingkaran coretan terbuka 3px, `accent/50` atau `navy/30`.                                            |
+| **DoodleArrow / LoopArrow** | panah gambar tangan 3px, `navy/50` atau `accent/60`. Hanya di layar lebar.                            |
+| **DotsPattern**             | pola titik. Hanya di section navy, `white/10`. `id` pattern harus unik per halaman.                   |
+| **Mark**                    | penanda kata di heading (lihat §3).                                                                   |
+
+Aturan:
+
+- Selalu `absolute`, `pointer-events-none`, `aria-hidden`, dan di belakang konten (konten dibungkus `relative` setelahnya).
+- Setiap section punya 2 blob, 2–3 sparkle/doodle. Jangan menumpuk lebih dari itu.
+- Bentuk besar boleh terpotong tepi section (`overflow-hidden`); jangan sampai menutupi teks hingga kontrasnya turun.
+- Doodle dan tile hero disembunyikan di layar kecil, bukan dikecilkan.
+- Hanya warna token. Tanpa gradien, tanpa blur, tanpa glow.
+
+---
+
+## 8. Voice
 
 Bahasa: **Bahasa Indonesia** untuk semua copy user-facing. Istilah teknis boleh English (`API`, `dashboard`, `deploy`).
 
@@ -200,41 +237,43 @@ Semua copy saat ini placeholder dan akan diganti. Struktur dan panjangnya sudah 
 
 ---
 
-## 8. Motion
+## 9. Motion
 
-Motion di dokumen ini **sangat sedikit dan lambat**. Setiap transisi hanya `color` atau `border-color`, `150ms`–`220ms`, `ease`.
+Motion minimal dan hanya merespons interaksi. Tidak ada animasi yang berjalan sendiri.
 
-| Elemen         | Hover                                | Durasi  |
-| -------------- | ------------------------------------ | ------- |
-| Card           | `border-color: hairline → navy`      | `220ms` |
-| Button primary | `background-color: navy → navy-soft` | `200ms` |
-| Nav link       | `color`                              | `150ms` |
-| Button link    | tidak ada perubahan                  | —       |
+| Elemen             | Efek                                                            | Durasi  |
+| ------------------ | --------------------------------------------------------------- | ------- |
+| Tombol, link nav   | `color` / `background-color` / `border-color`                   | `150ms` |
+| Kartu layanan      | `border-color` → `accent`, bayangan muncul                      | `200ms` |
+| Tile ikon di kartu | miring `-6°` saat hover kartu                                   | `200ms` |
+| Panah "Diskusikan" | bergeser `4px` ke kanan saat hover kartu                        | `200ms` |
+| Dropdown Layanan   | fade + naik `4px`, buka lewat hover atau fokus keyboard         | `150ms` |
+| Chevron nav        | berputar `180°` saat dropdown terbuka                           | `150ms` |
+| Scroll             | `scroll-behavior: smooth`, nonaktif di `prefers-reduced-motion` | —       |
 
-Larangan mutlak: tidak ada parallax, tidak ada animasi loop, tidak ada animasi hero, tidak ada `framer-motion`. Pengecualian terbatas diatur di §10 (reveal saat scroll dan zoom gambar portofolio). Halaman ini menang dengan tipografi dan whitespace, bukan gerakan. Animasi di sini akan langsung mengubah karakter brand dari "tenang" jadi "startupicorn".
-
-Kalau `--prefers-reduced-motion` relevan: karena tidak ada motion yang berarti, tidak perlu handling tambahan.
+Larangan mutlak: parallax, animasi loop (mengambang, berdenyut), animasi hero, scroll-jacking, `framer-motion`, count-up angka, marquee, carousel.
 
 ---
 
-## 9. Anti-patterns
+## 10. Anti-patterns
 
-Bagian ini yang paling load-bearing. Semuanya **dilarang**:
+Semuanya **dilarang**:
 
-1. **Drop shadow di card.** Pemisahan hanya `hairline` 1px.
-2. **Glow/cahaya dekoratif dan gradient berwarna mencolok.** Tidak ada gradient warna; latar selalu solid. Gradient hanya dipakai sebagai mask pemudaran dekorasi.
-3. **Warna aksen lebih dari satu kali per viewport.**
-4. **Heading bold.** Semua heading weight 300.
-5. **Body text di bawah 16px.**
-6. **Lebih dari satu `em` (italic serif) per heading.**
-7. **Border radius di atas 8px.** Card 6px, button 4px. Pengecualian: `icon.png` / favicon, yang mengikuti rasio app icon platform (`224px` di kanvas `1024` ≈ 22%). Batas 8px ini mengikat komponen di dalam halaman, bukan aset platform.
-8. **`text-transform: uppercase` di luar eyebrow.**
-9. **Ikon emoji sebagai dekorasi** (`💻 📱 🔗`). Kalau butuh ikon, pakai icon line-weight 1.5px, atau tidak ada.
-10. **Foto stok orang di ruang kerja.** Team pakai inisial, portofolio pakai angka/nama industri.
-11. **Card yang hover-nya translate/zoom.** Hanya border-color. Satu-satunya zoom: gambar screenshot portofolio, maks. 3% (§10).
-12. **Count-up number, marquee logo, testimonial carousel, FAQ accordion.** Tidak ada interaksi yang tidak melayani tujuan.
-13. **Copy yang mengandung salah satu kata terlarang di Section 7.**
-14. **Section gelap di tengah halaman.** Navy hanya untuk Kontak + Footer di ujung halaman.
+1. **Gradien** dalam bentuk apa pun, dan glow/`blur` dekoratif.
+2. **Bayangan di tombol, chip, teks, atau kartu biasa.** Bayangan hanya untuk bingkai browser, kartu profil, dropdown, dan hover kartu layanan.
+3. **Kuning (`sun*`) di luar bentuk dekoratif** — bukan untuk teks, tombol, border, atau ikon.
+4. **Warna di luar palet §2**, termasuk warna identitas proyek di portofolio.
+5. **Lebih dari satu `Mark` per heading.** Dan emphasis lewat italic, bold, atau warna.
+6. **Heading tipis atau heading dengan font selain Outfit.**
+7. **Body text di bawah 16px** (kecuali chip, label, dan teks tile sesuai §3).
+8. **Border radius di atas 16px** untuk komponen (kartu layanan dan tile ikon 16px, kartu profil/bingkai 12px, tombol 6px). Pengecualian: pill (chip, lencana), lingkaran (nomor langkah), dan `icon.png` / favicon yang mengikuti rasio app icon platform.
+9. **`text-transform: uppercase`.**
+10. **Ikon emoji sebagai dekorasi.** Ikon memakai garis 1.8px `currentColor` dari `components/ui/Icon.tsx`.
+11. **Foto stok orang di ruang kerja.** Visual hanya screenshot proyek nyata, ilustrasi flat, dan tile ikon.
+12. **Dekorasi yang menimpa teks**, menerima klik, atau tidak `aria-hidden`.
+13. **Animasi yang berjalan sendiri**, parallax, count-up, marquee, carousel, FAQ accordion.
+14. **Copy yang mengandung kata terlarang di §8 Voice**, atau copy yang menjual produk padahal bisnisnya jasa pengembangan.
+15. **CTA yang tidak sesuai isi halaman** (mis. "Masuk", "Coba Gratis", "Demo") — halaman ini company profile, tidak ada login atau demo.
 
 Setiap violation di atas harus diperbaiki, bukan diabaikan dengan alasan "penting untuk konversi".
 
@@ -242,40 +281,18 @@ Setiap violation di atas harus diperbaiki, bukan diabaikan dengan alasan "pentin
 
 ## Implementasi
 
-Semua section adalah **Server Component** kecuali `SiteHeader` (butuh scroll spy active state). Jangan tambahkan `"use client"` tanpa alasan eksplisit.
+Semua section adalah **Server Component** kecuali `SiteHeader` (butuh scroll spy). Jangan tambahkan `"use client"` tanpa alasan eksplisit.
 
-Tailwind `content` sudah mencakup `app`, `components`, `features`, `stores`, `lib` — kalau menambah folder source baru, tambahkan juga ke `tailwind.config.ts` atau class-nya akan ter-purge.
-
-Mockup referensi untuk 4 arah desain ada di folder temp (throwaway, bukan bagian repo). Style yang dipakai adalah **B — Light Editorial Calm**; A/C/D tidak dipakai.
+- **Konten** (teks, daftar layanan, langkah, fakta perusahaan, kontak) ada di `components/sections/data.ts`. Mengganti copy tidak menyentuh layout. Ia berada di `components/` supaya class Tailwind di dalamnya (mis. warna `tile`) ikut ter-scan.
+- **Primitif UI** di `components/ui/`: `Icon`, `Decor`, `Mark`, `Section` (`Container`, `SectionHeading`), `BrowserFrame`, `buttonStyles`.
+- **Font** lewat `next/font` dengan `display: "swap"` dan CSS variable `--font-heading` / `--font-body`. Jangan `<link>` ke Google Fonts di markup.
+- Tailwind `content` mencakup `app`, `components`, `features`, `stores`, `lib` — kalau menambah folder source baru, tambahkan juga ke `tailwind.config.ts` atau class-nya akan ter-purge.
+- Data legalitas di kartu profil diambil dari dokumen resmi perusahaan. Jangan menambah data pribadi (NIK, nama pemegang saham, komposisi saham, NPWP) tanpa persetujuan eksplisit.
 
 ---
 
 ## Status dokumen ini
 
-## 10. Arah visual: garis ilustratif editorial (revisi 2026-10-09)
-
-Konsep tidak berubah: **Light Editorial Calm**. Revisi ini menambah lapisan ilustrasi dan struktur editorial di atasnya (referensi: anthropic.com, notion.com). Aturan §2–§9 yang bertentangan sudah disesuaikan.
-
-| Elemen               | Aturan                                                                                                                                                                                                                                                     |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Ilustrasi garis**  | `components/ui/Illustration.tsx`: stroke navy 1.4px, satu detail `accent`, tanpa fill warna selain putih/`#EEF3FA`. Hero memakai blueprint; Layanan dan Proses memakai ilustrasi kecil 140×72px di kolom kanan (disembunyikan di mobile). Tanpa foto stok. |
-| **Baris bernomor**   | Layanan dan Proses berupa baris `96px / 1fr / 140px`, dipisah `border-top` `hairline` (item terakhir juga `border-bottom`). Angka serif italic 56px: navy di Layanan, `accent` di Proses. Bukan kartu.                                                     |
-| **Chip**             | label ruang lingkup/hasil: radius 4px, border `hairline`, bg `paper`, 13px. Tidak membawa klaim angka.                                                                                                                                                     |
-| **Figur portofolio** | screenshot dalam bingkai kertas (padding 14px, border `hairline`, radius 2px) dengan keterangan "Gbr. n" serif italic `accent`. Gambar boleh zoom 3% saat hover.                                                                                           |
-| **Ikon**             | Line 1.5px `currentColor` dari `components/ui/Icon.tsx`, kotak 40–48px berborder `hairline`, bg `cream`. Tanpa emoji.                                                                                                                                      |
-| **Hero**             | dua kolom di `lg`: teks rata kiri + panel ilustrasi `cream`. Motif garis `.hero-motif` tetap. Tanpa glow, tanpa lencana.                                                                                                                                   |
-| **Reveal**           | `.reveal`: fade + naik 18px sekali saat masuk viewport. CSS murni (`animation-timeline: view()`), nonaktif di `prefers-reduced-motion`.                                                                                                                    |
-| **Eyebrow section**  | diapit dua garis `accent/40` 32px.                                                                                                                                                                                                                         |
-| **Card hover**       | `.card-lift`: hanya `border-color` → `navy`. Tanpa bayangan, tanpa translate.                                                                                                                                                                              |
-
-**Latar section (`tone` di `Section`).** Ritme warna antar section: `Hero` cream → `Tentang` mist → `Layanan` cream → `Proses` paper → `Portofolio` mist → `Kontak` navy → Footer navy. `mist` = solid `#EEF3FA` (tanpa gradient); `paper` = putih dengan `border-y` hairline. Navy hanya untuk Kontak dan Footer (yang bersebelahan).
-
-**Dekorasi latar** (`components/ui/Decor.tsx`): `Rings` (lingkaran konsentris blueprint), `GridBg` (grid garis tipis memudar), `DotsBg`, `Crosses` (tanda plus registrasi). Opasitas 7–25%, selalu di belakang konten, tidak menerima klik, memudar ke tepi. Tidak ada glow berwarna.
-
-Yang tetap dilarang: shadow, glow sebagai dekorasi, parallax, animasi loop, marquee, count-up, radius > 8px, heading tebal.
-
----
-
 Dokumen ini adalah **source of truth untuk setiap keputusan visual** di repo ini. Tidak ada dokumen lain yang boleh mengulang atau menimpa aturan di sini — kalau spec atau komentar kode bertentangan dengan dokumen ini, dokumen ini yang menang.
 
-Satu-satunya cara mengubahnya adalah mengubah dokumen ini lebih dulu, lalu menyesuaikan kode. Kalau aturan di sini berubah, Section 9 (Anti-patterns) yang pertama harus diperbarui — bagian itu yang paling cepat usang.
+Satu-satunya cara mengubahnya adalah mengubah dokumen ini lebih dulu, lalu menyesuaikan kode. Kalau aturan di sini berubah, Section 10 (Anti-patterns) yang pertama harus diperbarui — bagian itu yang paling cepat usang.

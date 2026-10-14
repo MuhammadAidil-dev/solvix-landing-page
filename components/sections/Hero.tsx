@@ -1,70 +1,84 @@
-import { Icon, type IconName } from "../ui/Icon";
-import { HeroBlueprint } from "../ui/Illustration";
-import { Container } from "../ui/Section";
+import { BTN_PRIMARY, BTN_SECONDARY } from "../ui/buttonStyles";
+import { Blob, DoodleArrow, LoopArrow, ScribbleRing, Sparkle, Squiggle } from "../ui/Decor";
+import { IconCheck } from "../ui/Icon";
+import { Mark } from "../ui/Mark";
+import { SERVICES } from "./data";
 
-// Bidang usaha sesuai akta pendirian — bukan klaim angka.
-const CAPABILITIES: { icon: IconName; label: string }[] = [
-  { icon: "web", label: "Web & Aplikasi" },
-  { icon: "cart", label: "E-commerce" },
-  { icon: "iot", label: "IoT" },
-  { icon: "integration", label: "Integrasi Sistem" },
+const TILE_POSITIONS = [
+  "left-[7%] top-[12%] -rotate-6",
+  "left-[4%] bottom-[14%] rotate-6",
+  "right-[8%] top-[10%] rotate-6",
+  "right-[3%] top-[48%] -rotate-3",
+  "right-[14%] bottom-[8%] rotate-3",
 ];
+
+function ServiceTile({ index, className }: { index: number; className?: string }) {
+  const svc = SERVICES[index];
+  return (
+    <div className={`text-center ${className ?? ""}`}>
+      <span
+        className={`mx-auto flex h-[84px] w-[84px] items-center justify-center rounded-2xl text-white ${svc.tile}`}
+      >
+        <svc.icon className="h-10 w-10" />
+      </span>
+      <span className="mt-2 block text-[14px] font-medium text-navy">{svc.title}</span>
+    </div>
+  );
+}
+
+/** Dekorasi hero: bentuk flat + tile layanan di tepi (hanya layar lebar). */
+function HeroDecor() {
+  return (
+    <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+      <Blob variant={1} className="-right-32 top-4 h-[520px] w-[520px] text-sun" />
+      <Blob variant={2} className="-left-28 bottom-[-80px] h-[380px] w-[380px] text-mist-deep" />
+      <ScribbleRing className="left-[22%] top-[14%] hidden h-20 w-20 text-accent/50 xl:block" />
+      <DoodleArrow className="bottom-[22%] left-[18%] hidden h-12 w-24 rotate-[28deg] text-navy/50 xl:block" />
+      <LoopArrow className="right-[20%] top-[40%] hidden h-14 w-24 -rotate-12 text-accent/60 xl:block" />
+      <Sparkle className="right-[22%] top-[12%] h-7 w-7 text-accent" />
+      <Sparkle className="left-[16%] top-[44%] h-5 w-5 text-navy" />
+      <Sparkle className="bottom-[10%] right-[30%] h-6 w-6 text-accent" />
+      <Squiggle className="bottom-[6%] left-[10%] hidden h-3 w-24 text-navy/40 lg:block" />
+      <div className="hidden xl:block">
+        {TILE_POSITIONS.map((pos, i) => (
+          <ServiceTile key={i} index={i} className={`absolute ${pos}`} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function Hero() {
   return (
-    <section
-      id="atas"
-      className="relative flex min-h-[calc(100dvh_-_76px)] items-center overflow-hidden py-20 md:py-24"
-    >
-      <div aria-hidden="true" className="hero-motif pointer-events-none absolute inset-0" />
-
-      <Container>
-        <div className="relative grid items-center gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
-          <div>
-            <p className="mb-6 text-xs font-medium uppercase tracking-[0.2em] text-muted">
-              Pengembangan Software
-            </p>
-
-            <h1 className="text-[clamp(34px,4.6vw,56px)] font-light leading-[1.12] tracking-[-0.028em]">
-              Masalah operasional, kami ubah menjadi <em>sistem digital</em> yang berjalan.
-            </h1>
-
-            <p className="mt-6 max-w-[520px] text-[18px] font-light text-body">
-              PT TOP SOLVIX LABS membangun perangkat lunak kustom dengan dokumentasi jelas dan
-              dukungan jangka panjang.
-            </p>
-
-            <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
-              <a
-                href="#kontak"
-                className="inline-flex items-center gap-2 rounded-[4px] bg-navy px-8 py-[15px] text-[15px] font-medium text-paper transition-colors duration-200 hover:bg-navy-soft"
-              >
-                Mulai Diskusi
-                <Icon name="arrow" className="h-4 w-4" />
-              </a>
-              <a
-                href="#portofolio"
-                className="px-1 pb-[2px] text-[15px] text-accent underline decoration-2 underline-offset-4"
-              >
-                Lihat Portofolio
-              </a>
-            </div>
-
-            <ul className="mt-10 flex max-w-[520px] flex-wrap items-center gap-x-8 gap-y-4 border-t border-hairline pt-6">
-              {CAPABILITIES.map((item) => (
-                <li key={item.label} className="flex items-center gap-2.5 text-[14.5px] text-body">
-                  <Icon name={item.icon} className="h-5 w-5 text-navy" />
-                  {item.label}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="rounded-[6px] border border-hairline bg-cream p-4 md:p-6">
-            <HeroBlueprint className="h-auto w-full" />
-          </div>
+    <section id="atas" className="relative overflow-hidden bg-paper">
+      <HeroDecor />
+      <div className="relative mx-auto flex w-full max-w-[860px] flex-col items-center px-6 pb-24 pt-20 text-center md:pb-32 md:pt-28">
+        <h1 className="font-heading text-[clamp(38px,5.2vw,64px)] font-semibold leading-[1.1] tracking-[-0.02em]">
+          Kami membangun <Mark variant="underline">sistem digital</Mark> sesuai kebutuhan bisnis
+          Anda.
+        </h1>
+        <p className="mt-8 max-w-[600px] text-[20px] leading-relaxed text-body">
+          Jasa pengembangan perangkat lunak: dari analisis kebutuhan sampai sistem berjalan dan
+          terawat.
+        </p>
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <a href="#kontak" className={BTN_PRIMARY}>
+            Hubungi Kami
+          </a>
+          <a href="#layanan" className={BTN_SECONDARY}>
+            Lihat Layanan
+          </a>
         </div>
-      </Container>
+        <p className="mt-5 flex items-center gap-2 text-[15px] text-muted">
+          <IconCheck className="h-4 w-4 text-accent" />
+          Konsultasi gratis, tanpa komitmen — kami balas dalam 1×24 jam
+        </p>
+        <div className="mt-14 flex flex-wrap justify-center gap-6 xl:hidden">
+          {SERVICES.map((_, i) => (
+            <ServiceTile key={i} index={i} />
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

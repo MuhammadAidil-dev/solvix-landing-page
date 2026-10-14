@@ -1,92 +1,69 @@
 import Image from "next/image";
-import { DotsBg, GridBg, Rings } from "../ui/Decor";
-import { Icon } from "../ui/Icon";
-import { Section } from "../ui/Section";
-
-const CASES = [
-  {
-    industry: "Manajemen Gym",
-    title: "TOP GYM",
-    description:
-      "Sistem berbasis cloud untuk mengelola gym: member, absensi, pembayaran, kelas, fasilitas, akses pintu, dan laporan bisnis.",
-    href: "https://topgym.my.id/",
-    image: "/portfolio/topgym-landing.png",
-    imageAlt: "Tampilan halaman utama TOP GYM",
-  },
-  {
-    industry: "Ritel",
-    title: "Solvix Retail",
-    description:
-      "Toko online dengan katalog, keranjang belanja, pelacakan pesanan, dan program member dengan harga khusus.",
-    href: "https://solvixretail.my.id/",
-    image: "/portfolio/solvix-retail-landing.png",
-    imageAlt: "Tampilan halaman utama Solvix Retail",
-  },
-];
+import { BrowserFrame } from "../ui/BrowserFrame";
+import { BTN_SECONDARY } from "../ui/buttonStyles";
+import { Blob, ScribbleRing, Sparkle, Squiggle } from "../ui/Decor";
+import { IconArrow } from "../ui/Icon";
+import { Mark } from "../ui/Mark";
+import { SectionHeading } from "../ui/Section";
+import { CASES } from "./data";
 
 export function Portfolio() {
   return (
-    <Section
-      id="portofolio"
-      tone="mist"
-      decor={
-        <>
-          <GridBg />
-          <Rings className="left-1/2 top-1/2 h-[760px] w-[760px] -translate-x-1/2 -translate-y-1/2 text-navy/[0.07]" />
-          <DotsBg className="-right-16 top-10 hidden h-[320px] w-[320px] lg:block" />
-          <DotsBg className="-left-16 bottom-10 hidden h-[320px] w-[320px] lg:block" />
-        </>
-      }
-      eyebrow="Portofolio"
-      heading={
-        <>
-          Proyek <em>terpilih</em>.
-        </>
-      }
-      subheading="Dua sistem yang sudah berjalan dan bisa Anda kunjungi langsung."
-    >
-      <div className="grid gap-10 md:grid-cols-2 md:gap-8">
-        {CASES.map((item, i) => (
-          <figure key={item.title} className="reveal group flex flex-col">
-            {/* Dicetak seperti gambar majalah: bingkai kertas tipis + keterangan. */}
-            <div className="rounded-[2px] border border-hairline bg-paper p-3.5">
-              <div className="relative aspect-video overflow-hidden border border-hairline bg-[#EEF3FA]">
-                <Image
-                  src={item.image}
-                  alt={item.imageAlt}
-                  fill
-                  sizes="(min-width: 768px) 540px, 100vw"
-                  className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                />
-              </div>
-            </div>
+    <section id="portofolio" className="relative overflow-hidden bg-paper py-24 md:py-28">
+      <Blob variant={1} className="-left-32 top-[22%] h-[460px] w-[460px] text-sun" />
+      <Blob variant={2} className="-right-32 bottom-[8%] h-[460px] w-[460px] text-mist-deep" />
+      <Sparkle className="right-[8%] top-24 h-8 w-8 text-accent" />
+      <Sparkle className="bottom-20 left-[6%] h-6 w-6 text-navy" />
+      <Squiggle className="left-[44%] top-[44%] hidden h-3 w-28 text-accent/50 lg:block" />
+      <ScribbleRing className="right-[6%] top-[48%] h-16 w-16 text-navy/30" />
 
-            <figcaption className="mt-5 flex flex-1 flex-col">
-              <p className="flex items-baseline gap-3 text-[12px] font-medium uppercase tracking-[0.2em] text-muted">
-                <span className="font-serif text-[17px] font-normal normal-case italic tracking-[-0.01em] text-accent">
-                  Gbr. {i + 1}
+      <div className="relative mx-auto w-full max-w-[1240px] px-6">
+        <SectionHeading
+          title={
+            <>
+              Proyek <Mark variant="brush">terpilih</Mark>
+            </>
+          }
+          lead="Dua sistem yang sudah berjalan dan bisa Anda kunjungi langsung."
+        />
+        <div className="space-y-24">
+          {CASES.map((item, i) => (
+            <article key={item.title} className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+              <div className={i % 2 === 1 ? "lg:order-2" : ""}>
+                <BrowserFrame url={item.href.replace("https://", "").replace(/\/$/, "")}>
+                  <div className="relative aspect-video bg-mist">
+                    <Image
+                      src={item.image}
+                      alt={item.imageAlt}
+                      fill
+                      sizes="(min-width: 1024px) 560px, 100vw"
+                      className="object-cover object-top"
+                    />
+                  </div>
+                </BrowserFrame>
+              </div>
+              <div className={i % 2 === 1 ? "lg:order-1" : ""}>
+                <span className="rounded-full bg-mist px-3 py-1 text-[13px] font-medium text-accent">
+                  {item.industry}
                 </span>
-                {item.industry}
-              </p>
-              <h3 className="mt-3 text-[22px] font-normal leading-[1.2] tracking-[-0.015em]">
-                {item.title}
-              </h3>
-              <p className="mt-2.5 text-[16px] font-light leading-[1.7] text-body">
-                {item.description}
-              </p>
-              <a
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-auto inline-flex items-center gap-1.5 self-start pt-6 text-[15px] text-accent underline decoration-2 underline-offset-4"
-              >
-                Kunjungi situs
-                <Icon name="arrow" className="h-4 w-4" />
-              </a>
-            </figcaption>
-          </figure>
-        ))}
+                <h3 className="mt-5 font-heading text-[clamp(26px,3vw,36px)] font-semibold leading-tight text-navy">
+                  {item.title}
+                </h3>
+                <p className="mt-4 text-[18px] leading-relaxed text-body">{item.description}</p>
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${BTN_SECONDARY} mt-8`}
+                >
+                  Kunjungi situs
+                  <IconArrow className="h-4 w-4" />
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }
