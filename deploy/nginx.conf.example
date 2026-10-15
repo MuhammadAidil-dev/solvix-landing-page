@@ -1,12 +1,24 @@
 # Salin ke /etc/nginx/sites-available/solvix-landing, ganti domain, lalu:
 #   sudo ln -s /etc/nginx/sites-available/solvix-landing /etc/nginx/sites-enabled/
 #   sudo nginx -t && sudo systemctl reload nginx
-#   sudo certbot --nginx -d topsolvixlabs.my.id -d www.topsolvixlabs.my.id
+#   sudo certbot --nginx -d topsolvixlabs.com -d www.topsolvixlabs.com \
+#     -d topsolvixlabs.my.id -d www.topsolvixlabs.my.id
 # Certbot akan menambahkan blok HTTPS dan redirect otomatis.
+
+# Domain lama: redirect permanen ke domain baru.
 server {
     listen 80;
     listen [::]:80;
     server_name topsolvixlabs.my.id www.topsolvixlabs.my.id;
+
+    return 301 https://topsolvixlabs.com$request_uri;
+}
+
+# Domain utama.
+server {
+    listen 80;
+    listen [::]:80;
+    server_name topsolvixlabs.com www.topsolvixlabs.com;
 
     client_max_body_size 5m;
 

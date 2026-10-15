@@ -3,7 +3,8 @@
 Alur: kode di GitHub → `git pull` di VPS → `npm run build` → PM2 menjalankan `next start` di
 `127.0.0.1:3200` → Nginx meneruskan trafik publik + HTTPS.
 
-Domain: `topsolvixlabs.my.id` (dan `www.topsolvixlabs.my.id`).
+Domain utama: `topsolvixlabs.com` (dan `www.topsolvixlabs.com`). Domain lama
+`topsolvixlabs.my.id` (dan `www`) di-redirect 301 ke domain utama.
 
 ## 1. Persiapan server (sekali saja)
 
@@ -24,7 +25,8 @@ sudo ufw allow 'Nginx Full'
 sudo ufw enable
 ```
 
-Pastikan DNS `A record` domain (dan `www`) sudah menunjuk ke IP VPS sebelum langkah HTTPS.
+Pastikan DNS `A record` kedua domain (`.com` dan `.my.id`, masing-masing plus `www`) sudah
+menunjuk ke IP VPS sebelum langkah HTTPS.
 
 ## 2. Ambil kode dan jalankan pertama kali
 
@@ -53,8 +55,23 @@ sudo ln -s /etc/nginx/sites-available/solvix-landing /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
 
 sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d topsolvixlabs.my.id -d www.topsolvixlabs.my.id
+sudo certbot --nginx -d topsolvixlabs.com -d www.topsolvixlabs.com \
+  -d topsolvixlabs.my.id -d www.topsolvixlabs.my.id
 ```
+
+### Migrasi dari VPS yang sudah jalan (domain lama → baru)
+
+```bash
+cd /var/www/solvix-landing && git pull
+sudo cp deploy/nginx.conf.example /etc/nginx/sites-available/solvix-landing
+sudo nginx -t && sudo systemctl reload nginx
+# Perluas sertifikat yang ada agar mencakup domain baru:
+sudo certbot --nginx --expand -d topsolvixlabs.com -d www.topsolvixlabs.com \
+  -d topsolvixlabs.my.id -d www.topsolvixlabs.my.id
+```
+
+Catatan: menyalin ulang file nginx menimpa blok HTTPS hasil certbot, tapi `certbot --nginx`
+di atas memasangnya lagi.
 
 Certbot memasang pembaruan sertifikat otomatis. Uji dengan `sudo certbot renew --dry-run`.
 
