@@ -49,6 +49,10 @@ Cek: `curl -I http://127.0.0.1:3200` harus membalas `200`.
 
 ## 3. Nginx + HTTPS
 
+Server baru: pakai `nginx.conf.example` (HTTP saja) untuk mendapatkan sertifikat. `certbot --nginx`
+menambahkan blok HTTPS sendiri. `nginx.conf.https.example` adalah hasil akhir yang dipakai di
+produksi, untuk referensi atau migrasi.
+
 ```bash
 sudo cp deploy/nginx.conf.example /etc/nginx/sites-available/solvix-landing
 sudo ln -s /etc/nginx/sites-available/solvix-landing /etc/nginx/sites-enabled/
@@ -61,17 +65,22 @@ sudo certbot --nginx -d topsolvixlabs.com -d www.topsolvixlabs.com \
 
 ### Migrasi dari VPS yang sudah jalan (domain lama → baru)
 
+Certbot `--nginx` hanya bisa memasang sertifikat ke server block yang `server_name`-nya sudah
+memuat domain tersebut. Pada VPS yang sudah punya config, urutannya:
+
 ```bash
-cd /var/www/solvix-landing && git pull
-sudo cp deploy/nginx.conf.example /etc/nginx/sites-available/solvix-landing
-sudo nginx -t && sudo systemctl reload nginx
-# Perluas sertifikat yang ada agar mencakup domain baru:
+# 1. Perluas sertifikat (pasang otomatis akan gagal sampai langkah 2; itu normal)
 sudo certbot --nginx --expand -d topsolvixlabs.com -d www.topsolvixlabs.com \
   -d topsolvixlabs.my.id -d www.topsolvixlabs.my.id
+
+# 2. Ganti config nginx yang AKTIF (cek nama file lewat `ls -l /etc/nginx/sites-enabled/`)
+#    dengan deploy/nginx.conf.https.example, lalu:
+sudo nginx -t && sudo systemctl reload nginx
 ```
 
-Catatan: menyalin ulang file nginx menimpa blok HTTPS hasil certbot, tapi `certbot --nginx`
-di atas memasangnya lagi.
+Nama lineage sertifikat mengikuti domain pertama saat dibuat (di VPS ini
+`topsolvixlabs.my.id`), jadi path `ssl_certificate` di `nginx.conf.https.example` perlu
+disesuaikan kalau lineage-nya berbeda: cek dengan `sudo certbot certificates`.
 
 Certbot memasang pembaruan sertifikat otomatis. Uji dengan `sudo certbot renew --dry-run`.
 
