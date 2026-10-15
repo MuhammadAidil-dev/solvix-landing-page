@@ -4,6 +4,7 @@ import { BTN_SECONDARY } from "../ui/buttonStyles";
 import { Blob, ScribbleRing, Sparkle, Squiggle } from "../ui/Decor";
 import { IconArrow } from "../ui/Icon";
 import { Mark } from "../ui/Mark";
+import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/Section";
 import { CASES } from "./data";
 
@@ -29,7 +30,7 @@ export function Portfolio() {
         <div className="space-y-24">
           {CASES.map((item, i) => (
             <article key={item.title} className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-              <div className={i % 2 === 1 ? "lg:order-2" : ""}>
+              <Reveal className={i % 2 === 1 ? "lg:order-2" : ""}>
                 <BrowserFrame url={item.href.replace("https://", "").replace(/\/$/, "")}>
                   <div className="relative aspect-video bg-mist">
                     <Image
@@ -41,8 +42,8 @@ export function Portfolio() {
                     />
                   </div>
                 </BrowserFrame>
-              </div>
-              <div className={i % 2 === 1 ? "lg:order-1" : ""}>
+              </Reveal>
+              <Reveal className={i % 2 === 1 ? "lg:order-1" : ""} step={1}>
                 <span className="rounded-full bg-mist px-3 py-1 text-[13px] font-medium text-accent">
                   {item.industry}
                 </span>
@@ -59,7 +60,7 @@ export function Portfolio() {
                   Kunjungi situs
                   <IconArrow className="h-4 w-4" />
                 </a>
-              </div>
+              </Reveal>
             </article>
           ))}
         </div>

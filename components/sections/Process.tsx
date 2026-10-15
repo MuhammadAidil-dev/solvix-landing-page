@@ -1,5 +1,6 @@
 import { Blob, LoopArrow, Sparkle } from "../ui/Decor";
 import { Mark } from "../ui/Mark";
+import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/Section";
 import { STEPS } from "./data";
 
@@ -26,25 +27,27 @@ export function Process() {
             className="absolute left-[10%] right-[10%] top-7 hidden border-t-2 border-dashed border-accent/30 lg:block"
             aria-hidden="true"
           />
-          {STEPS.map((step) => (
+          {STEPS.map((step, i) => (
             <li key={step.num} className="relative text-center">
-              <span className="relative z-10 mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent font-heading text-[18px] font-semibold text-white ring-8 ring-paper">
-                {step.num}
-              </span>
-              <h3 className="mt-5 font-heading text-[18px] font-semibold leading-snug text-navy">
-                {step.title}
-              </h3>
-              <p className="mt-2 text-[16px] leading-relaxed text-body">{step.description}</p>
-              <ul className="mt-4 flex flex-wrap justify-center gap-1.5">
-                {step.outputs.map((output) => (
-                  <li
-                    key={output}
-                    className="rounded-full bg-mist px-3 py-1 text-[13px] font-medium text-navy"
-                  >
-                    {output}
-                  </li>
-                ))}
-              </ul>
+              <Reveal step={i}>
+                <span className="relative z-10 mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent font-heading text-[18px] font-semibold text-white ring-8 ring-paper">
+                  {step.num}
+                </span>
+                <h3 className="mt-5 font-heading text-[18px] font-semibold leading-snug text-navy">
+                  {step.title}
+                </h3>
+                <p className="mt-2 text-[16px] leading-relaxed text-body">{step.description}</p>
+                <ul className="mt-4 flex flex-wrap justify-center gap-1.5">
+                  {step.outputs.map((output) => (
+                    <li
+                      key={output}
+                      className="rounded-full bg-mist px-3 py-1 text-[13px] font-medium text-navy"
+                    >
+                      {output}
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
             </li>
           ))}
         </ol>

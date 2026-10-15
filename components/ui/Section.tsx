@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Reveal } from "./Reveal";
 
 /** Lebar konten dan padding horizontal yang dipakai semua section. */
 export function Container({ children }: { children: ReactNode }) {
@@ -15,7 +16,7 @@ interface SectionHeadingProps {
 export function SectionHeading({ title, lead, tone = "dark" }: SectionHeadingProps) {
   const light = tone === "light";
   return (
-    <div className="mx-auto mb-14 max-w-[760px] text-center">
+    <Reveal className="mx-auto mb-14 max-w-[760px] text-center">
       <h2
         className={`font-heading text-[clamp(30px,3.8vw,46px)] font-semibold leading-[1.15] tracking-[-0.015em] ${
           light ? "text-white" : "text-navy"
@@ -26,6 +27,6 @@ export function SectionHeading({ title, lead, tone = "dark" }: SectionHeadingPro
       <p className={`mt-5 text-[18px] leading-relaxed ${light ? "text-white/70" : "text-body"}`}>
         {lead}
       </p>
-    </div>
+    </Reveal>
   );
 }

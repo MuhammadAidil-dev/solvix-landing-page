@@ -239,17 +239,19 @@ Semua copy saat ini placeholder dan akan diganti. Struktur dan panjangnya sudah 
 
 ## 9. Motion
 
-Motion minimal dan hanya merespons interaksi. Tidak ada animasi yang berjalan sendiri.
+Motion minimal. Respons interaksi, ditambah satu pengecualian: scroll reveal sekali jalan. Tidak ada animasi yang berjalan sendiri atau berulang.
 
-| Elemen             | Efek                                                            | Durasi  |
-| ------------------ | --------------------------------------------------------------- | ------- |
-| Tombol, link nav   | `color` / `background-color` / `border-color`                   | `150ms` |
-| Kartu layanan      | `border-color` → `accent`, bayangan muncul                      | `200ms` |
-| Tile ikon di kartu | miring `-6°` saat hover kartu                                   | `200ms` |
-| Panah "Diskusikan" | bergeser `4px` ke kanan saat hover kartu                        | `200ms` |
-| Dropdown Layanan   | fade + naik `4px`, buka lewat hover atau fokus keyboard         | `150ms` |
-| Chevron nav        | berputar `180°` saat dropdown terbuka                           | `150ms` |
-| Scroll             | `scroll-behavior: smooth`, nonaktif di `prefers-reduced-motion` | —       |
+| Elemen             | Efek                                                                                                                                              | Durasi  |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| Tombol, link nav   | `color` / `background-color` / `border-color`                                                                                                     | `150ms` |
+| Kartu layanan      | `border-color` → `accent`, bayangan muncul                                                                                                        | `200ms` |
+| Tile ikon di kartu | miring `-6°` saat hover kartu                                                                                                                     | `200ms` |
+| Panah "Diskusikan" | bergeser `4px` ke kanan saat hover kartu                                                                                                          | `200ms` |
+| Dropdown Layanan   | fade + naik `4px`, buka lewat hover atau fokus keyboard                                                                                           | `150ms` |
+| Chevron nav        | berputar `180°` saat dropdown terbuka                                                                                                             | `150ms` |
+| Scroll             | `scroll-behavior: smooth`, nonaktif di `prefers-reduced-motion`                                                                                   | —       |
+| Scroll reveal      | fade + naik `16px` sekali saat masuk viewport, stagger `80ms` antar kartu (maks. 4 langkah); bukan di hero; nonaktif di `prefers-reduced-motion`  | `600ms` |
+| Splash logo        | dua garis mark membentuk "X", lalu wordmark muncul; sekali per muat halaman (juga saat refresh), bukan loop; nonaktif di `prefers-reduced-motion` | `±2,6s` |
 
 Larangan mutlak: parallax, animasi loop (mengambang, berdenyut), animasi hero, scroll-jacking, `framer-motion`, count-up angka, marquee, carousel.
 

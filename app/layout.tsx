@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
+import Script from "next/script";
+import { Splash } from "../components/ui/Splash";
 import "./globals.css";
 
 const heading = Outfit({
@@ -31,8 +33,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${heading.variable} ${body.variable}`}>
-      <body>{children}</body>
+    // suppressHydrationWarning: script di bawah menambah kelas `js-reveal` ke <html> sebelum hydrate.
+    <html lang="id" className={`${heading.variable} ${body.variable}`} suppressHydrationWarning>
+      <body>
+        <Script id="js-flags" strategy="beforeInteractive">
+          {`var d=document.documentElement;d.classList.add("js-reveal");try{if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("js-splash")}catch(e){}`}
+        </Script>
+        <Splash />
+        {children}
+      </body>
     </html>
   );
 }
