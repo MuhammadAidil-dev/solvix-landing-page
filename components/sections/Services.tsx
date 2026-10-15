@@ -1,6 +1,7 @@
 import { Blob, ScribbleRing, Sparkle, Squiggle, type BlobVariant } from "../ui/Decor";
 import { IconArrow } from "../ui/Icon";
 import { Mark } from "../ui/Mark";
+import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/Section";
 import { SERVICES } from "./data";
 
@@ -35,49 +36,52 @@ export function Services() {
           {SERVICES.map((s, i) => {
             const tint = CARD_TINTS[i % CARD_TINTS.length];
             return (
-              <a
+              <Reveal
                 key={s.title}
-                href="#kontak"
-                className={`group relative flex flex-col overflow-hidden rounded-2xl border border-hairline bg-paper transition-all duration-200 hover:border-accent hover:shadow-[0_16px_40px_-16px_rgba(43,127,255,0.35)] lg:col-span-2 ${
-                  i === 3 ? "lg:col-start-2" : ""
-                }`}
+                step={i % 3}
+                className={`lg:col-span-2 ${i === 3 ? "lg:col-start-2" : ""}`}
               >
-                <div className={`relative h-[132px] overflow-hidden ${tint.bg}`}>
-                  <Blob
-                    variant={((i % 3) + 1) as BlobVariant}
-                    className={`-right-6 -top-10 h-[190px] w-[190px] ${tint.blob}`}
-                  />
-                  <Sparkle className="bottom-5 right-8 h-5 w-5 text-accent/70" />
-                  <span className="absolute right-6 top-5 font-heading text-[15px] font-semibold text-navy/40">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span
-                    className={`absolute bottom-0 left-7 flex h-[68px] w-[68px] translate-y-1/2 items-center justify-center rounded-2xl text-white ring-4 ring-paper transition-transform duration-200 group-hover:-rotate-6 ${s.tile}`}
-                  >
-                    <s.icon className="h-8 w-8" />
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col px-7 pb-7 pt-12">
-                  <h3 className="font-heading text-[21px] font-semibold leading-tight text-navy">
-                    {s.title}
-                  </h3>
-                  <p className="mt-2.5 text-[16px] leading-relaxed text-body">{s.description}</p>
-                  <ul className="mt-5 flex flex-wrap gap-2">
-                    {s.scope.map((item) => (
-                      <li
-                        key={item}
-                        className="rounded-full bg-mist px-3 py-1 text-[13px] font-medium text-navy"
-                      >
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-[15px] font-medium text-accent">
-                    Diskusikan
-                    <IconArrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </a>
+                <a
+                  href="#kontak"
+                  className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-hairline bg-paper transition-all duration-200 hover:border-accent hover:shadow-[0_16px_40px_-16px_rgba(43,127,255,0.35)]"
+                >
+                  <div className={`relative h-[132px] overflow-hidden ${tint.bg}`}>
+                    <Blob
+                      variant={((i % 3) + 1) as BlobVariant}
+                      className={`-right-6 -top-10 h-[190px] w-[190px] ${tint.blob}`}
+                    />
+                    <Sparkle className="bottom-5 right-8 h-5 w-5 text-accent/70" />
+                    <span className="absolute right-6 top-5 font-heading text-[15px] font-semibold text-navy/40">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span
+                      className={`absolute bottom-0 left-7 flex h-[68px] w-[68px] translate-y-1/2 items-center justify-center rounded-2xl text-white ring-4 ring-paper transition-transform duration-200 group-hover:-rotate-6 ${s.tile}`}
+                    >
+                      <s.icon className="h-8 w-8" />
+                    </span>
+                  </div>
+                  <div className="flex flex-1 flex-col px-7 pb-7 pt-12">
+                    <h3 className="font-heading text-[21px] font-semibold leading-tight text-navy">
+                      {s.title}
+                    </h3>
+                    <p className="mt-2.5 text-[16px] leading-relaxed text-body">{s.description}</p>
+                    <ul className="mt-5 flex flex-wrap gap-2">
+                      {s.scope.map((item) => (
+                        <li
+                          key={item}
+                          className="rounded-full bg-mist px-3 py-1 text-[13px] font-medium text-navy"
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-[15px] font-medium text-accent">
+                      Diskusikan
+                      <IconArrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </div>
+                </a>
+              </Reveal>
             );
           })}
         </div>

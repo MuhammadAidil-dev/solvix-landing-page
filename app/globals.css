@@ -31,3 +31,110 @@
     outline-offset: 3px;
   }
 }
+
+/* Scroll reveal: sembunyi hanya jika JS aktif dan reduced-motion tidak diminta. */
+@media (prefers-reduced-motion: no-preference) {
+  .js-reveal .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .js-reveal .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Splash logo: tampil hanya jika script di layout menambah `js-splash` (tiap muat halaman).
+     Urutan: garis navy → garis biru (0–750ms), zoom-out + wordmark (1000–1750ms), tahan, lalu fade. */
+  .splash {
+    display: none;
+  }
+
+  .js-splash body {
+    overflow: hidden;
+  }
+
+  .js-splash .splash {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #ffffff;
+    animation: splash-out 400ms ease 2250ms forwards;
+  }
+
+  .splash-logo {
+    position: relative;
+    width: min(560px, 78vw);
+    /* titik pusat X pada logo: (85.9%, 38.1%) → dipindah ke tengah layar lalu diperbesar */
+    transform-origin: 85.9% 38.1%;
+    animation: splash-zoom 750ms cubic-bezier(0.22, 1, 0.36, 1) 1000ms both;
+  }
+
+  .splash-wordmark {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* potong di depan X; X digambar sebagai SVG */
+    clip-path: inset(0 20.3% 0 0);
+    animation: splash-fade-in 500ms ease 1250ms both;
+  }
+
+  .splash-line {
+    stroke-dasharray: 1;
+    animation: splash-draw 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .splash-line-navy {
+    animation-delay: 0ms;
+  }
+
+  .splash-line-blue {
+    animation-delay: 250ms;
+  }
+
+  @keyframes splash-draw {
+    from {
+      stroke-dashoffset: 1;
+      opacity: 0;
+    }
+    1% {
+      opacity: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+  }
+
+  @keyframes splash-zoom {
+    from {
+      transform: translate(-35.9%, 11.9%) scale(3.5);
+    }
+    to {
+      transform: none;
+    }
+  }
+
+  @keyframes splash-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes splash-out {
+    to {
+      opacity: 0;
+    }
+  }
+}

@@ -1,12 +1,13 @@
 import { Blob, ScribbleRing, Sparkle } from "../ui/Decor";
 import { Mark } from "../ui/Mark";
+import { Reveal } from "../ui/Reveal";
 import { BUSINESS_LINES, PROFILE } from "./data";
 
 export function About() {
   return (
     <section id="tentang" className="relative overflow-hidden bg-paper py-24 md:py-28">
       <div className="mx-auto grid w-full max-w-[1240px] items-center gap-16 px-6 lg:grid-cols-2">
-        <div>
+        <Reveal>
           <h2 className="font-heading text-[clamp(30px,3.8vw,46px)] font-semibold leading-[1.15] tracking-[-0.015em]">
             Perusahaan <Mark variant="circle">resmi</Mark> dan terdaftar
           </h2>
@@ -29,9 +30,9 @@ export function About() {
               </li>
             ))}
           </ul>
-        </div>
+        </Reveal>
 
-        <div className="relative">
+        <Reveal className="relative" step={1}>
           <Blob variant={1} className="-bottom-16 -left-20 h-[420px] w-[420px] text-sun" />
           <Sparkle className="-right-4 -top-6 h-8 w-8 text-accent" />
           <ScribbleRing className="-bottom-6 right-6 h-16 w-16 text-navy/30" />
@@ -64,7 +65,7 @@ export function About() {
               ))}
             </dl>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
