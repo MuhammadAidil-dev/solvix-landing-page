@@ -1,0 +1,50 @@
+# Config akhir (HTTPS penuh), sama dengan yang berjalan di VPS.
+# Dipasang SETELAH sertifikat terbit (lihat deploy/README.md bagian 3).
+# Salin ke /etc/nginx/sites-available/<nama-file-yang-di-sites-enabled>, lalu:
+#   sudo nginx -t && sudo systemctl reload nginx
+# Satu sertifikat mencakup keempat domain; path-nya mengikuti nama lineage certbot.
+
+# HTTP: semua ke HTTPS domain utama
+server {
+    listen 80;
+    listen [::]:80;
+    server_name topsolvixlabs.com www.topsolvixlabs.com topsolvixlabs.my.id www.topsolvixlabs.my.id;
+    return 301 https://topsolvixlabs.com$request_uri;
+}
+
+# HTTPS domain lama + www: redirect ke domain utama
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name www.topsolvixlabs.com topsolvixlabs.my.id www.topsolvixlabs.my.id;
+
+    ssl_certificate /etc/letsencrypt/live/topsolvixlabs.my.id/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/topsolvixlabs.my.id/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    return 301 https://topsolvixlabs.com$request_uri;
+}
+
+# HTTPS domain utama
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name topsolvixlabs.com;
+
+    ssl_certificate /etc/letsencrypt/live/topsolvixlabs.my.id/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/topsolvixlabs.my.id/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    client_max_body_size 5m;
+
+    location / {
+        proxy_pass http://127.0.0.1:3200;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
