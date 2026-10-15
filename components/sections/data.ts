@@ -21,6 +21,8 @@ import {
 export const WHATSAPP_HREF = "https://wa.me/6282282873453";
 export const EMAIL = "topsolvixlabs@gmail.com";
 export const PHONE_LABEL = "+62 822-8287-3453";
+export const INSTAGRAM_HREF = "https://www.instagram.com/topsolvix.labs";
+export const TIKTOK_HREF = "https://www.tiktok.com/@topsolvix.labs";
 
 export const NAV = [
   { label: "Tentang", href: "#tentang" },
