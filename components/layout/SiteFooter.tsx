@@ -1,5 +1,11 @@
 import Image from "next/image";
-import { EMAIL, PHONE_LABEL, SERVICES } from "../sections/data";
+import { IconInstagram, IconTiktok } from "../ui/Icon";
+import { EMAIL, INSTAGRAM_HREF, PHONE_LABEL, SERVICES, TIKTOK_HREF } from "../sections/data";
+
+const SOCIAL_LINKS = [
+  { href: INSTAGRAM_HREF, label: "Instagram Top Solvix Labs", icon: IconInstagram },
+  { href: TIKTOK_HREF, label: "TikTok Top Solvix Labs", icon: IconTiktok },
+];
 
 const COMPANY_LINKS = [
   { href: "#tentang", label: "Tentang Kami" },
@@ -19,6 +25,21 @@ export function SiteFooter() {
               Perusahaan pengembangan perangkat lunak berbadan hukum, berdomisili di Tembilahan,
               Riau.
             </p>
+            <ul className="mt-6 flex gap-3">
+              {SOCIAL_LINKS.map((social) => (
+                <li key={social.href}>
+                  <a
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 transition-colors hover:border-white hover:text-white"
+                  >
+                    <social.icon className="h-5 w-5" />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
           <div>
             <h4 className="mb-5 font-heading text-[16px] font-semibold text-white">Layanan</h4>
