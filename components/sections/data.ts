@@ -67,8 +67,8 @@ export const PROFILE = [
   {
     icon: IconPin,
     label: "Alamat kantor",
-    value: "Jl. Sri Gemilang, Lorong Taman Husada",
-    note: "Pekan Arba, Tembilahan, Kab. Indragiri Hilir, Riau 29212",
+    value: "Tembilahan, Indragiri Hilir",
+    note: "Provinsi Riau, Indonesia",
   },
 ];
 
