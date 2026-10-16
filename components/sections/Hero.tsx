@@ -77,7 +77,7 @@ export function Hero() {
         </div>
         <p className="mt-5 flex items-center gap-2 text-[15px] text-muted">
           <IconCheck className="h-4 w-4 text-accent" />
-          Konsultasi gratis, tanpa komitmen — kami balas dalam 1×24 jam
+          Ceritakan kendala operasional usaha anda, kami bantu petakan solusinya
         </p>
         <div className="mt-14 flex flex-wrap justify-center gap-6 xl:hidden">
           {SERVICES.map((_, i) => (
