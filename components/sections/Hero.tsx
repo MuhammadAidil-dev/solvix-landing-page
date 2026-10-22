@@ -64,8 +64,8 @@ export function Hero() {
           Anda.
         </h1>
         <p className="mt-8 max-w-[600px] text-[20px] leading-relaxed text-body">
-          Jasa pengembangan perangkat lunak: dari analisis kebutuhan sampai sistem berjalan dan
-          terawat.
+          Jasa pembuatan aplikasi dan software di Riau: dari analisis kebutuhan sampai sistem
+          berjalan dan terawat.
         </p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <a href="#kontak" className={BTN_PRIMARY}>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import Script from "next/script";
 import { Splash } from "../components/ui/Splash";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "../lib/site";
 import "./globals.css";
 
 const heading = Outfit({
@@ -19,16 +20,21 @@ const body = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "PT TOP SOLVIX LABS — Perusahaan Pengembangan Software",
-  description:
-    "PT TOP SOLVIX LABS merancang dan membangun perangkat lunak kustom untuk menyelesaikan masalah operasional bisnis melalui solusi digital.",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true, googleBot: { "max-image-preview": "large" } },
   openGraph: {
     title: "PT TOP SOLVIX LABS",
     description:
       "Perusahaan pengembangan software yang mengubah masalah operasional menjadi solusi digital.",
+    url: "/",
+    siteName: SITE_NAME,
     locale: "id_ID",
     type: "website",
   },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

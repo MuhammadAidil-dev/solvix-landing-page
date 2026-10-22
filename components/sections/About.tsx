@@ -13,7 +13,8 @@ export function About() {
           </h2>
           <p className="mt-6 text-[18px] leading-relaxed text-body">
             PT TOP SOLVIX LABS adalah perusahaan pengembangan perangkat lunak berbadan hukum,
-            berdomisili di Tembilahan, Riau.
+            berdomisili di Tembilahan, Kabupaten Indragiri Hilir, dan melayani klien di seluruh
+            Provinsi Riau.
           </p>
           <ul className="mt-8 space-y-5">
             {BUSINESS_LINES.map((line) => (
