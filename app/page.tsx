@@ -1,4 +1,5 @@
 import { SiteFooter } from "../components/layout/SiteFooter";
+import { OrganizationJsonLd } from "../components/seo/OrganizationJsonLd";
 import { SiteHeader } from "../components/layout/SiteHeader";
 import { About } from "../components/sections/About";
 import { Contact } from "../components/sections/Contact";
@@ -12,6 +13,7 @@ import { TrustStrip } from "../components/sections/TrustStrip";
 export default function HomePage() {
   return (
     <>
+      <OrganizationJsonLd />
       <SiteHeader />
       <main>
         <Hero />
